@@ -1,5 +1,3 @@
-# ! Work in progress - do not use !
-
 # Kibatic UX Bundle
 
 ## Installation

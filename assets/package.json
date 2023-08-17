@@ -3,32 +3,25 @@
     "description": "",
     "license": "MIT",
     "version": "0.0.1",
-    "main": "controller.js",
+    "main": "dist/modal_controller.js",
     "symfony": {
         "controllers": {
-            "hello": {
-                "main": "controller.js",
-                "name": "hello",
-                "webpackMode": "eager",
-                "fetch": "eager",
-                "enabled": true
-            },
             "modal": {
-                "main": "modal_controller.js",
+                "main": "dist/modal_controller.js",
                 "name": "modal",
                 "webpackMode": "eager",
                 "fetch": "eager",
                 "enabled": true
             },
             "global-modal-stack": {
-                "main": "global-modal-stack_controller.js",
+                "main": "dist/global-modal-stack_controller.js",
                 "name": "global-modal-stack",
                 "webpackMode": "eager",
                 "fetch": "eager",
                 "enabled": true
             },
             "global-modal-trigger": {
-                "main": "global-modal-trigger_controller.js",
+                "main": "dist/global-modal-trigger_controller.js",
                 "name": "global-modal-trigger",
                 "webpackMode": "eager",
                 "fetch": "eager",
