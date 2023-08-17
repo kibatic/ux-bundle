@@ -1,5 +1,4 @@
-# ! Work in progresss !
-# ! DO NOT USE !
+# ! Work in progress - do not use !
 
 # Kibatic UX Bundle
 
