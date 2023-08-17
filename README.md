@@ -6,31 +6,6 @@
 composer require kibatic/ux-bundle
 yarn install --force
 ```
-TODO: next step should be done auto with flex
-
-```
-// assets/controllers.json
-{
-    "controllers": {
-        // ...
-        "@kibatic/ux": {
-            "global-modal-stack": {
-                "enabled": true,
-                "fetch": "eager"
-            },
-            "global-modal-trigger": {
-                "enabled": true,
-                "fetch": "eager"
-            },
-            "modal": {
-                "enabled": true,
-                "fetch": "eager"
-            }
-        }
-    }
-    // ...
-}
-```
 
 Then build your assets.
 
