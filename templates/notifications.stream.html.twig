@@ -1,0 +1,13 @@
+<turbo-stream action="append" target="notifications">
+    <template>
+        {% for options in app.session.flashbag.get(namespace|default('sweet-alert')) %}
+            <div {{ stimulus_controller('alert', options) }}></div>
+        {% endfor %}
+    </template>
+</turbo-stream>
+
+{% if clear_modal_stack ?? false %}
+<turbo-stream action="update" target="modal-stack">
+    <template></template>
+</turbo-stream>
+{% endif %}

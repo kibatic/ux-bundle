@@ -1,0 +1,50 @@
+{
+    "name": "kibatic/ux-bundle",
+    "type": "symfony-bundle",
+    "description": "",
+    "keywords": [
+        "symfony-ux"
+    ],
+    "homepage": "https://kibatic.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jérémy Crombez",
+            "email": "jeremy.crombez@kibatic.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Kibatic\\UX\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Kibatic\\UX\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=7.2.5",
+        "symfony/config": "^4.4.17|^5.0|^6.0",
+        "symfony/dependency-injection": "^4.4.17|^5.0|^6.0",
+        "symfony/http-kernel": "^4.4.17|^5.0|^6.0"
+    },
+    "require-dev": {
+//        "symfony/framework-bundle": "^4.4.17|^5.0|^6.0",
+//        "symfony/phpunit-bridge": "^5.2|^6.0",
+//        "symfony/twig-bundle": "^4.4.17|^5.0|^6.0",
+//        "symfony/var-dumper": "^4.4.17|^5.0|^6.0",
+//        "symfony/webpack-encore-bundle": "^1.11"
+    },
+//    "conflict": {
+//        "symfony/flex": "<1.13",
+//        "symfony/webpack-encore-bundle": "<1.11"
+//    },
+    "extra": {
+        "thanks": {
+            "name": "symfony/ux",
+            "url": "https://github.com/symfony/ux"
+        }
+    },
+    "minimum-stability": "dev"
+}

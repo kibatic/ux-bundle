@@ -1,0 +1,9 @@
+{# Modal bootstrap relié à un controller stimulus #}
+{% extends '@KibaticUX/_modal.html.twig' %}
+
+{% block attr %}
+    {{ stimulus_controller('modal', {
+        autoOpen: auto_open ?? false,
+        closeOnSuccess: close_on_success ?? true,
+    }) }}
+{% endblock %}

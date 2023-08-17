@@ -1,0 +1,19 @@
+{% set disabled = disabled ?? false %}
+
+<a
+    {{ stimulus_controller('global-modal-trigger', {
+        'frame_src': link_url,
+        'frame_id': frame_id ?? 'page-content',
+        'frame_target': (frame_target_top ?? true) ? '_top' : '',
+        'title': modal_title|default(''),
+        'close_on_success': close_on_success ?? true,
+        'stay_on_success': stay_on_success ?? false,
+        'related_turbo_frames': related_turbo_frames ?? [],
+    }) }}
+    {{ stimulus_action('global-modal-trigger', 'click') }}
+
+    href="{{ link_url }}"
+    class="{{ link_class|default('') }}"
+>
+    {% block content %}{{ link_text|raw|default('Afficher') }}{% endblock %}
+</a>

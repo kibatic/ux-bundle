@@ -1,0 +1,28 @@
+{# Modal bootstrap classique #}
+<div
+{% if id is defined %}id="{{ id }}"{% endif %}
+class="modal fade"
+tabindex="-1"
+aria-hidden="true"
+{% if backdrop is defined and backdrop == false %}data-bs-backdrop="false"{% endif %}
+{% block attr '' %}
+>
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            {% block modal_header %}
+                {% if title is defined %}
+                    <div class="modal-header">
+                        <h5 class="modal-title">{% block modal_title '' %}</h5>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close">
+                        </button>
+                    </div>
+                {% endif %}
+            {% endblock %}
+            {% block modal_content '' %}
+        </div>
+    </div>
+</div>

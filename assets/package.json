@@ -1,0 +1,51 @@
+{
+    "name": "@kibatic/ux",
+    "description": "",
+    "license": "MIT",
+    "version": "0.0.1",
+    "main": "controller.js",
+    "symfony": {
+        "controllers": {
+            "hello": {
+                "main": "controller.js",
+                "name": "hello",
+                "webpackMode": "eager",
+                "fetch": "eager",
+                "enabled": true
+            },
+            "modal": {
+                "main": "modal_controller.js",
+                "name": "modal",
+                "webpackMode": "eager",
+                "fetch": "eager",
+                "enabled": true
+            },
+            "global-modal-stack": {
+                "main": "global-modal-stack_controller.js",
+                "name": "global-modal-stack",
+                "webpackMode": "eager",
+                "fetch": "eager",
+                "enabled": true
+            },
+            "global-modal-trigger": {
+                "main": "global-modal-trigger_controller.js",
+                "name": "global-modal-trigger",
+                "webpackMode": "eager",
+                "fetch": "eager",
+                "enabled": true
+            }
+        },
+        "importmap": {
+            "@hotwired/stimulus": "^3.0.0",
+            "bootstrap": "^5.3.1"
+        }
+    },
+    "peerDependencies": {
+        "@hotwired/stimulus": "^3.0.0",
+        "bootstrap": "^5.3.1"
+    },
+    "devDependencies": {
+        "@hotwired/stimulus": "^3.0.0",
+        "bootstrap": "^5.3.1"
+    }
+}

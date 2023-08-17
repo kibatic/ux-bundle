@@ -1,0 +1,14 @@
+{# Modal bootstrap contenant une turbo-frame #}
+{% extends '@KibaticUX/_stimulus-modal.html.twig' %}
+
+{% block modal_content %}
+    <turbo-frame
+        {{ stimulus_target('modal', 'turboFrame') }}
+        class="modal-body"
+        src="{{ frame_src|default('') }}"
+        id="{{ frame_id|default('') }}"
+        loading="lazy"
+    >
+        {{ loading_message|default('Chargement...') }}
+    </turbo-frame>
+{% endblock %}

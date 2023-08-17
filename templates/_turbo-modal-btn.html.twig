@@ -1,0 +1,16 @@
+{% set btn_text %}
+    {% if (btn_icon ?? false) != false %}<span class="bi bi-{{ btn_icon }}"></span> {% endif %}
+    {% if btn_text != false %}{{ btn_text ?? 'Afficher' }}{% endif %}
+{% endset %}
+
+{% include '@KibaticUX/_turbo-modal-link.html.twig' with {
+    'link_url': btn_url,
+    'link_text': btn_text,
+    'link_class': btn_class ?? ('btn btn-' ~ btn_type|default('primary')) ~ (btn_class_append is defined ? ' ' ~ btn_class_append : ''),
+    'modal_title': modal_title ?? false,
+    'frame_id': frame_id ?? null,
+    'frame_target_top': frame_target_top ?? null,
+    'close_on_success': close_on_success ?? null,
+    'related_turbo_frames': related_turbo_frames ?? [],
+    'disabled': disabled ?? false
+} %}

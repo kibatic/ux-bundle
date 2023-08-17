@@ -1,0 +1,12 @@
+<div
+    id="modal-stack"
+    {{ stimulus_controller('global-modal-stack') }}
+    {{ stimulus_action('global-modal-stack', 'add', 'open-global-modal@window') }}
+>
+    {% embed '@KibaticUX/_turbo-modal.html.twig'%}
+        {% block attr %}
+            {{  parent() }}
+            {{ stimulus_target('global-modal-stack', 'modalModel') }}
+        {% endblock %}
+    {% endembed %}
+</div>
