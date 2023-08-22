@@ -16,6 +16,8 @@ export default class extends Controller {
     async add(event) {
         let clone = this.modalModelTarget.cloneNode(true)
 
+        delete clone.dataset.globalModalStackTarget
+
         clone.dataset.modalAutoOpenValue = 'true'
         // Pour ne pas avoir deux fois le même form dans le dom, on supprime les offcanvas quand ils sont fermés.
         clone.dataset.modalRemoveOnCloseValue = 'true'
@@ -32,15 +34,15 @@ export default class extends Controller {
             }
         }
 
-        if (event.detail.closeOnSuccess) {
+        if (event.detail.closeOnSuccess !== null) {
             clone.dataset.modalCloseOnSuccessValue = event.detail.closeOnSuccess
         }
 
-        if (event.detail.stayOnSuccess) {
+        if (event.detail.stayOnSuccess !== null) {
             clone.dataset.modalStayOnSuccessValue = event.detail.stayOnSuccess
         }
 
-        if (event.detail.relatedTurboFrames && event.detail.relatedTurboFrames.length > 0) {
+        if (event.detail.relatedTurboFrames !== null && event.detail.relatedTurboFrames.length > 0) {
             clone.dataset.modalRelatedTurboFramesValue = JSON.stringify(event.detail.relatedTurboFrames)
         }
 
