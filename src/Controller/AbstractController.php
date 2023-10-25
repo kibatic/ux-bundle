@@ -12,8 +12,9 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     public function __construct(protected RequestStack $requestStack)
-{
-}
+    {
+    }
+    
     public function createForm(string $type, mixed $data = null, array $options = [], bool $autoAction = true): FormInterface
     {
         if ($autoAction) {
