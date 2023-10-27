@@ -87,7 +87,7 @@ export default class extends Controller {
 
                     turboFrameSrc = turboFrameSrc ?? parentTurboFrameSrc ?? document.location
 
-                    console.log('Canvas -> onSuccess -> Close -> refresh frame : ' + relatedTurboFrameId + ' (src=' + turboFrameSrc + ')', turboFrame, parentTurboFrame, turboFrameSrc)
+                    console.log('Modal -> onSuccess -> Close -> refresh frame : ' + relatedTurboFrameId + ' (src=' + turboFrameSrc + ')', turboFrame, parentTurboFrame, turboFrameSrc)
 
                     turboFrame.setAttribute('src', '')
                     turboFrame.setAttribute('src', turboFrameSrc)
