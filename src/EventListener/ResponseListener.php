@@ -18,16 +18,18 @@ final class ResponseListener
         // Si la requête vient de Turbo et qu'on souhaite rester sur la même page,
         // on définit le content type à "text/vnd.turbo-stream.html"
         // et on utilise le template des notifications au format turbo stream.
-        if (
-            $event->getRequest()->headers->get('turbo-on-success') === 'stay' &&
-            $event->getRequest()->getPreferredFormat() === TurboBundle::STREAM_FORMAT
+        if ($event->getRequest()->headers->get('turbo-on-success') === 'stay'
+            && $event->getRequest()->getPreferredFormat() === TurboBundle::STREAM_FORMAT
         ) {
+            if (!$event->getResponse()->isSuccessful()) {
+                return;
+            }
+
             $event->getRequest()->setRequestFormat(TurboBundle::STREAM_FORMAT);
-
-            $response = new Response(200);
-            $response->setContent($this->twig->render('@KibaticUX/notifications.stream.html.twig'));
-
-            $event->setResponse($response);
+            $event->getResponse()
+                ->setStatusCode($event->getResponse()->getStatusCode())
+                ->setContent($this->twig->render('common/notifications.stream.html.twig'))
+            ;
         }
     }
 }
