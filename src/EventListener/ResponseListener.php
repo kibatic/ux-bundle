@@ -28,7 +28,7 @@ final class ResponseListener
             $event->getRequest()->setRequestFormat(TurboBundle::STREAM_FORMAT);
             $event->getResponse()
                 ->setStatusCode($event->getResponse()->getStatusCode())
-                ->setContent($this->twig->render('common/notifications.stream.html.twig'))
+                ->setContent($this->twig->render('@KibaticUX/notifications.stream.html.twig'))
             ;
         }
     }
