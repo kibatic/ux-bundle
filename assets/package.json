@@ -30,15 +30,15 @@
         },
         "importmap": {
             "@hotwired/stimulus": "^3.0.0",
-            "bootstrap": "^5.3.1"
+            "bootstrap": "^5.2.3"
         }
     },
     "peerDependencies": {
         "@hotwired/stimulus": "^3.0.0",
-        "bootstrap": "^5.3.1"
+        "bootstrap": "^5.2.3
     },
     "devDependencies": {
         "@hotwired/stimulus": "^3.0.0",
-        "bootstrap": "^5.3.1"
+        "bootstrap": "^5.2.3"
     }
 }
