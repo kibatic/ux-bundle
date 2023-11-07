@@ -35,7 +35,7 @@
     },
     "peerDependencies": {
         "@hotwired/stimulus": "^3.0.0",
-        "bootstrap": "^5.2.3
+        "bootstrap": "^5.2.3"
     },
     "devDependencies": {
         "@hotwired/stimulus": "^3.0.0",
