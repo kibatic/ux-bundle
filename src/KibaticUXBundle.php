@@ -3,13 +3,28 @@
 namespace Kibatic\UX;
 
 use Kibatic\UX\DependencyInjection\KibaticUXExtension;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
-final class KibaticUXBundle extends AbstractBundle
+final class KibaticUXBundle extends AbstractBundle implements CompilerPassInterface
 {
     public function getContainerExtension(): ?ExtensionInterface
     {
         return new KibaticUXExtension();
+    }
+
+    public function build(ContainerBuilder $container): void
+    {
+        $container->addCompilerPass($this);
+    }
+
+    public function process(ContainerBuilder $container)
+    {
+        $container->getDefinition('twig')
+            ->addMethodCall('addGlobal', ['turbo', $container->getDefinition(Turbo::class)])
+            ->addMethodCall('addGlobal', ['plop', 'coucou'])
+        ;
     }
 }

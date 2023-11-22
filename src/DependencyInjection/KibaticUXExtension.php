@@ -3,6 +3,7 @@
 namespace Kibatic\UX\DependencyInjection;
 
 use Kibatic\UX\EventListener\ResponseListener;
+use Kibatic\UX\Turbo;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Reference;
@@ -20,6 +21,12 @@ class KibaticUXExtension extends Extension
             ->addTag('kernel.event_listener', ['event' => KernelEvents::RESPONSE])
             ->setArguments([
                 new Reference(Environment::class)
+            ])
+        ;
+
+        $container->register(Turbo::class, Turbo::class)
+            ->setArguments([
+                new Reference('request_stack')
             ])
         ;
 

@@ -2,7 +2,7 @@
     "name": "@kibatic/ux",
     "description": "",
     "license": "MIT",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "main": "dist/modal_controller.js",
     "symfony": {
         "controllers": {
@@ -26,19 +26,29 @@
                 "webpackMode": "eager",
                 "fetch": "eager",
                 "enabled": true
+            },
+            "alert": {
+                "main": "dist/alert_controller.js",
+                "name": "alert",
+                "webpackMode": "eager",
+                "fetch": "eager",
+                "enabled": true
             }
         },
         "importmap": {
             "@hotwired/stimulus": "^3.0.0",
-            "bootstrap": "^5.2.3"
+            "bootstrap": "^5.2.3",
+            "sweetalert2": "^11.7"
         }
     },
     "peerDependencies": {
         "@hotwired/stimulus": "^3.0.0",
-        "bootstrap": "^5.2.3"
+        "bootstrap": "^5.2.3",
+        "sweetalert2": "^11.7"
     },
     "devDependencies": {
         "@hotwired/stimulus": "^3.0.0",
-        "bootstrap": "^5.2.3"
+        "bootstrap": "^5.2.3",
+        "sweetalert2": "^11.7"
     }
 }

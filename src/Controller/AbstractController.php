@@ -2,6 +2,7 @@
 
 namespace Kibatic\UX\Controller;
 
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,5 +37,49 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         if (!$this->isCsrfTokenValid($tokenId, $request->get('_token'))) {
             throw new AccessDeniedHttpException("Invalid CSRF token for id : $tokenId.");
         }
+    }
+
+    public function addAlert(string $icon, ?string $title = null, ?string $text = null, array $options = []): void
+    {
+        $options = $options + [
+            'icon' => $icon,
+            'title' => $title,
+            'text' => $text,
+            'showConfirmButton' => true,
+        ];
+
+        $this->addCustomAlert($options);
+    }
+
+    public function addQuickAlert(string $icon, ?string $title = null, ?string $text = null, array $options = [], ?string $namespace = null): void
+    {
+        $options = $options + [
+            'icon' => $icon,
+            'title' => $title,
+            'text' => $text,
+            'timer' => 3000,
+            'timerProgressBar' => true,
+            'showConfirmButton' => false,
+        ];
+
+        $this->addCustomAlert($options, $namespace);
+    }
+
+    /**
+     * Attention, malgré le nom de "toast", ça reste une alerte et il ne peut y en avoir qu'une à la fois.
+     */
+    public function addToastAlert(string $icon, ?string $title = null, ?string $text = null, array $options = []): void
+    {
+        $options = [
+            'toast' => true,
+            'position' => 'top-end',
+        ] + $options;
+
+        $this->addQuickAlert($icon, $title, $text, $options);
+    }
+
+    public function addCustomAlert($options = [], ?string $namespace = null): void
+    {
+        $this->addFlash($namespace ?? 'sweet-alert', ['options' => $options]);
     }
 }
