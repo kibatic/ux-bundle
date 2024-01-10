@@ -25,6 +25,15 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         return parent::createForm($type, $data, $options);
     }
 
+    public function createFormBuilder(mixed $data = null, array $options = [], bool $autoAction = true): FormBuilderInterface
+    {
+        if ($autoAction) {
+            $options['action'] = $options['action'] ?? $this->requestStack->getCurrentRequest()->getUri();
+        }
+
+        return parent::createFormBuilder($data, $options);
+    }
+
     protected function redirectToRoute(string $route, array $parameters = [], int $status = Response::HTTP_SEE_OTHER): RedirectResponse
     {
         return parent::redirectToRoute($route, $parameters, $status);
