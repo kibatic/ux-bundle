@@ -24,6 +24,15 @@ export default class extends Controller {
         this.element.addEventListener('turbo:frame-render', this.turbo_onFrameRender)
         this.element.addEventListener('turbo:submit-end', this.turbo_onSubmitEnd)
 
+        // Remove instantly the modal backdrop before turbo save the page snapshot into its cache.
+        document.addEventListener('turbo:before-cache', () => {
+            this.element.classList.remove('fade');
+            let modal = this.getModal()
+            modal._backdrop._config.isAnimated = false;
+            modal.hide();
+            modal.dispose();
+        })
+
         console.log('Modal -> autoOpen: ' + this.autoOpenValue)
 
         if (this.autoOpenValue) {
@@ -34,10 +43,6 @@ export default class extends Controller {
     disconnect() {
         this.element.removeEventListener('turbo:frame-render', this.turbo_onFrameRender)
         this.element.removeEventListener('turbo:submit-end', this.turbo_onSubmitEnd)
-
-        // this.close()
-        // // pour ne jamais mettre en cache turbo une modal qui s'ouvrirait à la restoration du cache.
-        // this.autoOpenValue = false
     }
 
     getModal() {
