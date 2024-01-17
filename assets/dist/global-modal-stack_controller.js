@@ -34,15 +34,20 @@ export default class extends Controller {
             }
         }
 
-        if (event.detail.closeOnSuccess !== null) {
+        if (event.detail.closeOnSuccess
+            && event.detail.closeOnSuccess !== null) {
             clone.dataset.modalCloseOnSuccessValue = event.detail.closeOnSuccess
         }
 
-        if (event.detail.stayOnSuccess !== null) {
+        if (event.detail.stayOnSuccess
+            && event.detail.stayOnSuccess !== null) {
             clone.dataset.modalStayOnSuccessValue = event.detail.stayOnSuccess
         }
 
-        if (event.detail.relatedTurboFrames !== null && event.detail.relatedTurboFrames.length > 0) {
+        if (event.detail.relatedTurboFrames
+            && event.detail.relatedTurboFrames !== null
+            && event.detail.relatedTurboFrames.length > 0
+        ) {
             clone.dataset.modalRelatedTurboFramesValue = JSON.stringify(event.detail.relatedTurboFrames)
         }
 
