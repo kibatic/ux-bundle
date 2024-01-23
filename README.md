@@ -56,7 +56,7 @@ Then build your assets.
 ### 2 - Bouton
 
 ```php
-{% include '@KibaticUX/_turbo-offcanvas-btn.html.twig' with {
+{% include '@KibaticUX/_turbo-modal-btn.html.twig' with {
     'btn_url': path('app_user_edit', {'id': 123}),
     'btn_text': 'Modifier',
     'btn_icon': 'edit',
