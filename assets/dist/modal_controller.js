@@ -1,11 +1,13 @@
 import { Controller } from '@hotwired/stimulus'
 import { Modal } from 'bootstrap'
+import {getMap} from "core-js/internals/reflect-metadata";
 
 export default class extends Controller {
     static values = {
         autoOpen: Boolean,
         closeOnSuccess: Boolean,
         stayOnSuccess: Boolean,
+        removeOnClose: Boolean,
         relatedTurboFrames: Array,
         hideBackdrop: Boolean,
     }
@@ -17,7 +19,6 @@ export default class extends Controller {
         // supprimer l'event listener depuis la méthode disconnect (grâce à l'assignation dans une variable).
         this.turbo_onFrameRender = this._turbo_onFrameRender.bind(this);
         this.turbo_onSubmitEnd = this._turbo_onSubmitEnd.bind(this);
-        // this.bsOffcanvas_OnHide = this._bsOffcanvas_OnHide.bind(this);
     }
 
     connect() {
@@ -38,6 +39,12 @@ export default class extends Controller {
         if (this.autoOpenValue) {
             this.open()
         }
+
+        this.element.addEventListener('hide.bs.modal', () => {
+            if (this.removeOnCloseValue) {
+                this.element.remove()
+            }
+        })
     }
 
     disconnect() {
