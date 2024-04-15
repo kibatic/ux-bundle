@@ -82,6 +82,8 @@ export default class extends Controller {
             for (let relatedTurboFrameId of this.relatedTurboFramesValue) {
                 let turboFrames = document.querySelectorAll(relatedTurboFrameId)
 
+                console.log('Modal -> onSuccess -> Close -> try refreshing frame (selector="' + relatedTurboFrameId + '")', turboFrames)
+
                 turboFrames.forEach(turboFrame => {
                     let turboFrameSrc = turboFrame.getAttribute('src')
 
@@ -92,10 +94,10 @@ export default class extends Controller {
 
                     turboFrameSrc = turboFrameSrc ?? parentTurboFrameSrc ?? document.location
 
-                    console.log('Modal -> onSuccess -> Close -> refresh frame : ' + relatedTurboFrameId + ' (src=' + turboFrameSrc + ')', turboFrame, parentTurboFrame, turboFrameSrc)
-
                     turboFrame.setAttribute('src', '')
                     turboFrame.setAttribute('src', turboFrameSrc)
+
+                    console.log('Modal -> onSuccess -> Close -> refreshed frame : ' + relatedTurboFrameId + ' (src=' + turboFrameSrc + ')', turboFrame, parentTurboFrame, turboFrameSrc)
                 })
             }
         }

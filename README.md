@@ -6,6 +6,14 @@
 composer require kibatic/ux-bundle
 yarn install --force
 ```
+
+To be able to use the modal stayOnSuccess option, add this to your app.js :
+
+```
+import TurboHelper from "@kibatic/ux-bundle/dist/turbo-helper";
+```
+
+
 TODO: next step should be done auto with flex
 
 ```
@@ -56,7 +64,7 @@ Then build your assets.
 ### 2 - Bouton
 
 ```php
-{% include '@KibaticUX/_turbo-modal-btn.html.twig' with {
+{% include '@KibaticUX/_turbo-offcanvas-btn.html.twig' with {
     'btn_url': path('app_user_edit', {'id': 123}),
     'btn_text': 'Modifier',
     'btn_icon': 'edit',
@@ -114,7 +122,7 @@ Lorsqu'une modal globale imbriquée contenant une turbo-frame est affichée, les
 La première modal globale à s'ouvrir quant à elle aura l'attribut `data-turbo-on-success="follow"`.
 
 Cet attribut a pour effet de rajouter un header HTTP `Turbo-On-Success` dans les requêtes des formulaires, ce header est ensuite pris en compte par le back pour décider si en cas de succès, la réponse sera une redirection (`follow`) où un turbo-stream contenant les éventuels flash messages (`stay`).
-Attention, le back ne gère pas ça de manière complètement automatique, vous devez utiliser la méthode `$this->responseOrTurboStream($request, $this->redirectToRoute('my_success_route'))`.
+Ce comportement est géré par `Kibatic\UX\EventListener\ResponseListener`.
 
 ### 3 - Mise à jour ciblée d'une modal depuis une autre modal
 
@@ -140,7 +148,7 @@ C'est en général pas très gênant mais c'est à garder en tête si vous avez 
 
 **CAS 2 : Live component**
 
-Ce cas est le plus avancé présent sur l'app, dans le live component de la facture, pour chaque ligne de facture on peut choisir un produit.
+Ce cas est le plus avancé, dans le live component de la facture, pour chaque ligne de facture on peut choisir un produit.
 Ce choix se fait via un select présent dans le formulaire de l'invoice, mais du fait du fonctionnement du live component et de sa mise à jour automatique,
 on ne peut pas simplement mettre le champ dans une modal et le présenter à l'utilisateur car à chaque fois que le live component se mettre à jour, il va écraser son DOM et la modal serait réinitialisée à son état fermé.
 À l'avenir le live component devrait gérer de manière plus intéligente ce genre de situation où l'ont veut préserver les modifications d'une partie du DOM qui entoure un DOM qu'on veut lui maintenir à jour.
