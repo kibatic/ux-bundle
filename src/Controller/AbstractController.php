@@ -15,6 +15,11 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     public function __construct(protected RequestStack $requestStack)
     {
     }
+
+    public function redirectToReferrer(): RedirectResponse
+    {
+        return $this->redirect($this->requestStack->getCurrentRequest()->headers->get('referer'));
+    }
     
     public function createForm(string $type, mixed $data = null, array $options = [], bool $autoAction = true): FormInterface
     {
@@ -46,6 +51,16 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         if (!$this->isCsrfTokenValid($tokenId, $request->get('_token'))) {
             throw new AccessDeniedHttpException("Invalid CSRF token for id : $tokenId.");
         }
+    }
+
+    protected function isCurrentRequestTheMainRequest(): bool
+    {
+        return $this->requestStack->getParentRequest() === null;
+    }
+
+    protected function getMainRequest(): Request
+    {
+        return $this->requestStack->getMainRequest();
     }
 
     public function addAlert(string $icon, ?string $title = null, ?string $text = null, array $options = []): void
