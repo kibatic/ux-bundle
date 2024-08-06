@@ -21,7 +21,6 @@ TODO: next step should be done auto with flex
 {
     "controllers": {
         // ...
-        "@kibatic/ux": {
         "@kibatic/ux-bundle": {
             "modal": {
                 "enabled": true,
