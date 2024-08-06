@@ -22,6 +22,11 @@ TODO: next step should be done auto with flex
     "controllers": {
         // ...
         "@kibatic/ux": {
+        "@kibatic/ux-bundle": {
+            "modal": {
+                "enabled": true,
+                "fetch": "eager"
+            },
             "global-modal-stack": {
                 "enabled": true,
                 "fetch": "eager"
@@ -30,7 +35,7 @@ TODO: next step should be done auto with flex
                 "enabled": true,
                 "fetch": "eager"
             },
-            "modal": {
+            "alert": {
                 "enabled": true,
                 "fetch": "eager"
             }
