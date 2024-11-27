@@ -1,6 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
 import { Modal } from 'bootstrap'
-import {getMap} from "core-js/internals/reflect-metadata";
 
 export default class extends Controller {
     static values = {
