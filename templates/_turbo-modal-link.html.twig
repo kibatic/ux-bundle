@@ -14,6 +14,7 @@
 
     href="{{ link_url }}"
     class="{{ link_class|default('') }}"
+    title="{{ link_title|default('') }}"
 >
     {% block content %}{{ link_text|raw|default('Afficher') }}{% endblock %}
 </a>
