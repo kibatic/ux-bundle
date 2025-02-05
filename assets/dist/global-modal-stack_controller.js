@@ -34,8 +34,9 @@ export default class extends Controller {
             }
         }
 
-        if (event.detail.closeOnSuccess
-            && event.detail.closeOnSuccess !== null) {
+        console.log('event.detail.closeOnSuccess => ' + event.detail.closeOnSuccess)
+        if (event.detail.closeOnSuccess !== null) {
+            console.log('closeOnSuccess => ' + event.detail.closeOnSuccess)
             clone.dataset.modalCloseOnSuccessValue = event.detail.closeOnSuccess
         }
 

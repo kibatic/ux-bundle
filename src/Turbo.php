@@ -15,6 +15,11 @@ class Turbo
         return $this->getRequestedFrame() !== null;
     }
 
+    public function requestFromModal(): bool
+    {
+        return (bool) $this->requestStack->getCurrentRequest()->headers->get('turbo-modal');
+    }
+
     public function getRequestedFrame(): ?string
     {
         return $this->requestStack->getCurrentRequest()->headers->get('turbo-frame');

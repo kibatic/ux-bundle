@@ -1,0 +1,37 @@
+main {
+  header {
+    display: flex;
+    justify-content: space-between;
+
+    ul {
+      @extend .list-inline;
+
+      li {
+        @extend .list-inline-item;
+      }
+
+      .btn-link {
+        padding: 0;
+      }
+    }
+  }
+}
+
+section {
+  @extend .clearfix;
+  background-color: $white;
+  padding: $spacer;
+  margin-bottom: $spacer;
+}
+
+form.crud {
+  .btn-success {
+    float: right;
+  }
+}
+
+table.table-show {
+  th {
+    text-align: right;
+  }
+}

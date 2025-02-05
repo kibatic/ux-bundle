@@ -9,11 +9,31 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\UX\Turbo\TurboBundle;
+use Twig\Environment;
 
 class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-    public function __construct(protected RequestStack $requestStack)
+    public function __construct(
+        protected RequestStack $requestStack,
+        protected Environment $twig
+    ) {
+    }
+
+    protected function render(string $view, array $parameters = [], ?Response $response = null, bool $handleTurboOnSuccess = true): Response
     {
+        $request = $this->requestStack->getMainRequest();
+
+        if ($handleTurboOnSuccess
+            && $request->headers->get('turbo-on-success') === 'stay'
+            && $request->getPreferredFormat() === TurboBundle::STREAM_FORMAT
+        ) {
+            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+            return (new Response())
+                ->setContent($this->twig->render('@KibaticUX/notifications.stream.html.twig'));
+        }
+
+        return parent::render($view, $parameters, $response);
     }
 
     public function redirectToReferrer(): RedirectResponse

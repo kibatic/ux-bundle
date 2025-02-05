@@ -46,6 +46,8 @@ TODO: next step should be done auto with flex
 
 Then build your assets.
 
+// TODO: document using the simpler twig components instead of using includes
+
 # Utilisation
 ## Ouvrir une modal globale
 
@@ -126,7 +128,7 @@ Lorsqu'une modal globale imbriquée contenant une turbo-frame est affichée, les
 La première modal globale à s'ouvrir quant à elle aura l'attribut `data-turbo-on-success="follow"`.
 
 Cet attribut a pour effet de rajouter un header HTTP `Turbo-On-Success` dans les requêtes des formulaires, ce header est ensuite pris en compte par le back pour décider si en cas de succès, la réponse sera une redirection (`follow`) où un turbo-stream contenant les éventuels flash messages (`stay`).
-Ce comportement est géré par `Kibatic\UX\EventListener\ResponseListener`.
+Ce comportement est géré par méthode `Kibatic\UX\Controller\AbstractController::render`.
 
 ### 3 - Mise à jour ciblée d'une modal depuis une autre modal
 

@@ -1,0 +1,40 @@
+{% set iconOnly = iconOnly ?? false %}
+{% set hasContent = not iconOnly and (this.getContent() is not empty or block('content') is not empty) %}
+
+{% set stimulusAttributes = create_stimulus_attributes() %}
+
+{% if confirm is defined and confirm %}
+    {% set stimulusAttributes = stimulusAttributes|
+        stimulus_controller('confirm', {'text': confirm_text ?? null, 'title': confirm_title ?? null})
+        |stimulus_action('confirm', 'handle')
+    %}
+{% endif %}
+
+{% if liveAction is defined and liveAction != [] %}
+    {% set stimulusAttributes = stimulusAttributes|
+        live_action(liveAction[0], liveAction[1] ?? {})
+    %}
+{% endif %}
+
+{% if modal ?? false -%}
+    {% set stimulusAttributes = stimulusAttributes|
+        stimulus_controller('global-modal-trigger', {
+            'frame_src': attributes.all.href,
+            'frame_id': this.modalFrameId|default('content'),
+            'frame_target': this.modalFrameTarget,
+            'close_on_success': this.modalCloseOnSuccess ? 'true' : 'false',
+            'stay_on_success': this.modalStayOnSuccess ? 'true': 'false',
+            'related_turbo_frames': this.modalRelatedTurboFrames,
+        })
+    %}
+{%- endif -%}
+
+<a
+    {{ attributes }}
+    class="{{ classAttribute ?? '' }}"
+    {{ stimulusAttributes|raw }}
+>
+    {%- if this.getIcon() is not null and this.getIconPosition() == 'left' %}<i class="bi {{ this.getIcon() }}"></i>{{ hasContent ? ' ' : '' }}{% endif -%}
+    {%- block content -%}{{- not iconOnly ? this.getContent()|trans : '' -}}{%- endblock -%}
+    {%- if this.getIcon() is not null and this.getIconPosition() == 'right' %}{{ hasContent ? ' ' : '' }}<i class="bi {{ this.getIcon() }}"></i>{% endif -%}
+</a>

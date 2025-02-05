@@ -19,6 +19,10 @@ const TurboHelper = class {
         })
 
         document.addEventListener('turbo:before-fetch-request', (event) => {
+            if (event.target.dataset.modalTarget) {
+                event.detail.fetchOptions.headers['Turbo-Modal'] = true;
+            }
+
             if (!event.target.dataset.turboOnSuccess) {
                 return;
             }
