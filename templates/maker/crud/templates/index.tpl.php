@@ -7,7 +7,7 @@
         <h1>{{ block('title') }}</h1>
 
         <ul>
-            <li><twig:btn href="{{ path('app_u_new') }}" type="new" /></li>
+            <li><twig:btn href="{{ path('<?= $route_name ?>_new') }}" type="new" /></li>
         </ul>
     </header>
 

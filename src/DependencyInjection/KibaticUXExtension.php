@@ -8,10 +8,12 @@ use Kibatic\UX\Turbo;
 use Kibatic\UX\Twig\Components\AComponent;
 use Kibatic\UX\Twig\Components\ButtonComponent;
 use Symfony\Component\AssetMapper\AssetMapperInterface;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\UX\Autocomplete\Maker\MakeAutocompleteField;
@@ -24,19 +26,16 @@ class KibaticUXExtension extends Extension implements PrependExtensionInterface
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
+        (new YamlFileLoader(
+            $container,
+            new FileLocator(dirname(__DIR__) . '/../config')
+        ))
+            ->load('services.yaml');
+
         $container->register(Turbo::class, Turbo::class)
             ->setArguments([
                 new Reference('request_stack')
             ])
-        ;
-
-        $container
-            ->register('kibatic.ux.make_crud', MakeCrud::class)
-            ->setArguments([
-                new Reference('maker.doctrine_helper', ContainerInterface::IGNORE_ON_INVALID_REFERENCE),
-                new Reference('maker.renderer.form_type_renderer', ContainerInterface::IGNORE_ON_INVALID_REFERENCE),
-            ])
-            ->addTag('maker.command')
         ;
 
         $container
