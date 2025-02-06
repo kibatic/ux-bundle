@@ -14,7 +14,7 @@ class AComponent
     public bool $iconOnly = false;
 
     public bool $modal = false;
-    public string $modalFrameId = 'content';
+    public string $modalFrameId = 'page-content';
     public string $modalFrameTarget = '_top';
     public bool $modalCloseOnSuccess = false;
     public bool $modalStayOnSuccess = false;

@@ -20,7 +20,7 @@
     {% set stimulusAttributes = stimulusAttributes|
         stimulus_controller('global-modal-trigger', {
             'frame_src': attributes.all.href,
-            'frame_id': this.modalFrameId|default('content'),
+            'frame_id': this.modalFrameId|default('page-content'),
             'frame_target': this.modalFrameTarget,
             'close_on_success': this.modalCloseOnSuccess ? 'true' : 'false',
             'stay_on_success': this.modalStayOnSuccess ? 'true': 'false',
