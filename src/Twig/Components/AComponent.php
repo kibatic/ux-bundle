@@ -80,7 +80,13 @@ class AComponent
 
     public function getIcon(): ?string
     {
-        return $this->getSuperType($this->type)['icon'] ?? $this->icon;
+        $icon = $this->getSuperType($this->type)['icon'] ?? $this->icon;
+
+        if (!strpos($icon, ' ')) {
+            $icon = "bi $icon";
+        }
+
+        return $icon;
     }
 
     public function getContent(): ?string

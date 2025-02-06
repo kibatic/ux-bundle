@@ -26,7 +26,6 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFilter('live_action', $this->appendLiveAction(...), ['is_safe' => ['html_attr']]),
-            new TwigFilter('language_code_3to2', $this->language_code_3to2(...)),
         ];
     }
 

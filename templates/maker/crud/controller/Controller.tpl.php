@@ -6,26 +6,23 @@ namespace <?= $class_data->getNamespace() ?>;
 
 <?= $class_data->getClassDeclaration() ?>
 {
+    use DatagridControllerHelper;
+
 <?= $generator->generateRouteForControllerMethod($route_path, sprintf('%s_index', $route_name), ['GET']) ?>
-<?php if (isset($repository_full_class_name)): ?>
-    public function index(<?= $repository_class_name ?> $<?= $repository_var ?>): Response
+    public function index(<?= $datagrid_builder_class_name ?> $<?= $datagrid_builder_var ?>): Response
     {
-        return $this->render('<?= $templates_path ?>/index.html.twig', [
-            '<?= $entity_twig_var_plural ?>' => $<?= $repository_var ?>->findAll(),
-        ]);
-    }
-<?php else: ?>
-    public function index(EntityManagerInterface $entityManager): Response
-    {
-        $<?= $entity_var_plural ?> = $entityManager
-            ->getRepository(<?= $entity_class_name ?>::class)
-            ->findAll();
+        $form = $this->createFilterFormBuilder()
+            ->add('search', null, [
+                'label' => false,
+                'attr' => ['placeholder' => 'Rechercher']
+            ])
+            ->getForm();
 
         return $this->render('<?= $templates_path ?>/index.html.twig', [
-            '<?= $entity_twig_var_plural ?>' => $<?= $entity_var_plural ?>,
+            'grid' => $<?= $datagrid_builder_var ?>->initialize(filtersForm: $form)->getGrid(),
+            'form' => $form,
         ]);
     }
-<?php endif ?>
 
 <?= $generator->generateRouteForControllerMethod("$route_path/new", sprintf('%s_new', $route_name), ['GET', 'POST']) ?>
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -38,7 +35,7 @@ namespace <?= $class_data->getNamespace() ?>;
             $entityManager->persist($<?= $entity_var_singular ?>);
             $entityManager->flush();
 
-            $this->addToastAlert('success', '<?= strtoupper($entity_var_singular) ?> créé.');
+            $this->addToastAlert('success', '<?= ucfirst($entity_var_singular) ?> créé.');
             return $this->redirectToRoute('<?= $route_name ?>_show', ['id' => $<?= $entity_var_singular ?>->getId()]);
         }
 
@@ -65,7 +62,7 @@ namespace <?= $class_data->getNamespace() ?>;
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            $this->addToastAlert('success', '<?= strtoupper($entity_var_singular) ?> modifié.');
+            $this->addToastAlert('success', '<?= ucfirst($entity_var_singular) ?> modifié.');
             return $this->redirectToReferrer();
         }
 
@@ -82,7 +79,7 @@ namespace <?= $class_data->getNamespace() ?>;
             $entityManager->remove($<?= $entity_var_singular ?>);
             $entityManager->flush();
 
-            $this->addToastAlert('success', '<?= strtoupper($entity_var_singular) ?> supprimé.');
+            $this->addToastAlert('success', '<?= ucfirst($entity_var_singular) ?> supprimé.');
         }
 
         return $this->redirectToRoute('<?= $route_name ?>_index');

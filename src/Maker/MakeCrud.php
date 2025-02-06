@@ -7,6 +7,7 @@ use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Kibatic\DatagridBundle\Controller\DatagridControllerHelper;
 use Kibatic\UX\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -28,6 +29,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
@@ -39,6 +41,7 @@ final class MakeCrud extends AbstractMaker
 
     private Inflector $inflector;
     private string $controllerClassName;
+    private string $datagridBuilderClassName;
     private bool $generateTests = false;
 
     public function __construct(private DoctrineHelper $doctrineHelper, private FormTypeRenderer $formTypeRenderer)
@@ -59,7 +62,7 @@ final class MakeCrud extends AbstractMaker
     public function configureCommand(Command $command, InputConfiguration $inputConfig): void
     {
         $command
-            ->addArgument('entity-class', InputArgument::OPTIONAL, \sprintf('The class name of the entity to create CRUD (e.g. <fg=yellow>%s</>)', Str::asClassName(Str::getRandomTerm())))
+            ->addArgument('entity-class', InputArgument::OPTIONAL, \sprintf('The class name of the entity to create CRUD'))
         ;
 
         $inputConfig->setArgumentAsNonInteractive('entity-class');
@@ -84,8 +87,15 @@ final class MakeCrud extends AbstractMaker
         $defaultControllerClass = Str::asClassName(\sprintf('%s Controller', $input->getArgument('entity-class')));
 
         $this->controllerClassName = $io->ask(
-            \sprintf('Choose a name for your controller class (e.g. <fg=yellow>%s</>)', $defaultControllerClass),
+            \sprintf('Choose a name for your controller class', $defaultControllerClass),
             $defaultControllerClass
+        );
+
+        $defaultDatagridBuilderClass = Str::asClassName(\sprintf('%s GridBuilder', $input->getArgument('entity-class')));
+
+        $this->datagridBuilderClassName = $io->ask(
+            \sprintf("The class name of the associated grid builder ?", $defaultControllerClass),
+            $defaultDatagridBuilderClass
         );
 
 //        $this->interactSetGenerateTests($input, $io);
@@ -142,10 +152,12 @@ final class MakeCrud extends AbstractMaker
             suffix: 'Controller',
             extendsClass: AbstractController::class,
             useStatements: [
+                "App\\Datagrid\\{$this->datagridBuilderClassName}",
                 $entityClassDetails->getFullName(),
                 $formClassDetails->getFullName(),
                 $repositoryClassName,
                 AbstractController::class,
+                DatagridControllerHelper::class,
                 Request::class,
                 Response::class,
                 Route::class,
@@ -172,10 +184,12 @@ final class MakeCrud extends AbstractMaker
                 'class_data' => $controllerClassData,
                 'entity_class_name' => $entityClassDetails->getShortName(),
                 'form_class_name' => $formClassDetails->getShortName(),
+                'datagrid_builder_class_name' => $this->datagridBuilderClassName,
+                'datagrid_builder_var' => lcfirst($this->datagridBuilderClassName),
                 'route_path' => Str::asRoutePath($controllerClassDetails->getRelativeNameWithoutSuffix()),
                 'route_name' => $routeName,
                 'templates_path' => $templatesPath,
-                'entity_var_plural' => $entityVarPlural,
+                'entity_var_plural' => lcfirst($this->inflector->pluralize($entityClassDetails->getShortName())),
                 'entity_twig_var_plural' => $entityTwigVarPlural,
                 'entity_var_singular' => $entityVarSingular,
                 'entity_twig_var_singular' => $entityTwigVarSingular,
