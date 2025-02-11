@@ -82,6 +82,10 @@ class AComponent
     {
         $icon = $this->getSuperType($this->type)['icon'] ?? $this->icon;
 
+         if (!$icon) {
+            return null;
+        }
+
         if (!strpos($icon, ' ')) {
             $icon = "bi $icon";
         }
