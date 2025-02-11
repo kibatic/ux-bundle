@@ -13,8 +13,7 @@ To be able to use the modal stayOnSuccess option, add this to your app.js :
 import TurboHelper from "@kibatic/ux-bundle/dist/turbo-helper";
 ```
 
-
-TODO: next step should be done auto with flex
+// TODO: next step should be done auto with flex
 
 ```
 // assets/controllers.json
@@ -48,16 +47,20 @@ Then build your assets.
 
 // TODO: document using the simpler twig components instead of using includes
 
-# Utilisation
-## Ouvrir une modal globale
+# How to use
+## Opening a global modal
 
-### 1 - Lien
+### 1 - Link
 
+```
+<twig:a href="{{ path('my_route') }}" modal>My link</twig:a>
+```
+or 
 ```php
 {% include '@KibaticUX/_turbo-modal-link.html.twig' with {
-    'link_url': path('ma_route', {'clef': 'valeur'}),
-    'link_text': 'Mon lien',
-    'link_class': 'jolie_lien',
+    'link_url': path('my_route', {'key': 'value'}),
+    'link_text': 'My link',
+    'link_class': 'nice-link'
     'frame_target_top': false,
     'close_on_success': false,
 } %}
@@ -69,10 +72,14 @@ Then build your assets.
 
 ### 2 - Bouton
 
+```
+<twig:btn href="{{ path('app_user_edit', {'id': 123}) }}" modal size="large" icon="edit">Edit</twig:a>
+```
+or
 ```php
 {% include '@KibaticUX/_turbo-offcanvas-btn.html.twig' with {
-    'btn_url': path('app_user_edit', {'id': 123}),
-    'btn_text': 'Modifier',
+    'btn_url': path('app_user_edit', {'id': user.id}),
+    'btn_text': 'Edit',
     'btn_icon': 'edit',
     'btn_size': 'large',
     'frame_target_top': false,
@@ -80,7 +87,7 @@ Then build your assets.
 } %}
 ```
 
-- `btn_text'`: (default: `Afficher`)
+- `btn_text'`: (default: `Show`)
 - `btn_class`: (default: `btn btn-{btn_size}`)
 - `btn_size`: (default: `medium`)
 
@@ -137,16 +144,28 @@ Ce comportement est géré par méthode `Kibatic\UX\Controller\AbstractControlle
 Le plus souvent, vous voudrez mettre à jour le contenu de la page principale après avoir fait une action depuis une modal.
 Par exemple ici, vous êtes sur la page `/user/list`, vous voulez ouvrir une modal pour modifier l'un des utilisateurs de la liste et qu'en cas de succès du formulaire de la modal mettre à jour le bloc "page-content" pour que vos modifs soit reflété dans la liste :
 
+```
+<twig:btn
+    href="{{ path('app_user_edit', {'id': user.id}) }}"
+    size="large"
+    icon="bi-pencil"
+    modal
+    :modalRelatedTurboFrames="['#custom-frame']"
+>
+    Edit
+</twig:btn>
+```
+or
 ```php
 {% include 'common/_turbo-modal-btn.html.twig' with {
     'btn_url': path('app_user_edit', {'id': user.id}),
-    'btn_text': 'Modifier',
+    'btn_text': 'Edit',
     'btn_icon': 'edit',
-    'related_turbo_frames': ['#page-content']
+    'related_turbo_frames': ['#page-content', '#header-user']
 } %}
 ```
 
-Si votre page contient plusieurs turbo frame, par exemple un dashboard avec une liste d'utilisateur, une liste de commandes, etc., vous pouvez également ajouter un selecteur plus précis que `#page-content` et cibler précisément la turbo frame en question.
+Si votre page contient plusieurs turbo frame, par exemple un dashboard avec une liste d'utilisateur, une liste de commandes, etc., vous pouvez également ajouter un selecteur plus précis que `#page-content` (qui est la valeur par défaut) comme ici avec "custom-frame", et cibler précisément la turbo frame en question.
 
 Il existe une problématique lié à l'utilisation (expliqué plus haut) de l'id "page-content" dans le cas où vous utilisez la fonctionnalité "relatedTurboFrames".
 Étant donné que les modals se base par défaut sur cet id pour isoler le contenu de l'url cible, si vous en ouvrez plusieurs et que vous souhaitez en mettre à jour une en particulier, vous n'aurez que l'id "page-content" de disponible pour cibler votre modal, or cet id va correspondre à plusieurs frame dans le page ce qui mettra donc à jour plus de chose que souhaité.
