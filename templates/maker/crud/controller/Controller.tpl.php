@@ -18,6 +18,8 @@ namespace <?= $class_data->getNamespace() ?>;
             ])
             ->getForm();
 
+        // TODO: remonter getGrid
+
         return $this->render('<?= $templates_path ?>/index.html.twig', [
             'grid' => $<?= $datagrid_builder_var ?>->initialize(filtersForm: $form)->getGrid(),
             'form' => $form,
@@ -82,6 +84,6 @@ namespace <?= $class_data->getNamespace() ?>;
             $this->addToastAlert('success', '<?= ucfirst($entity_var_singular) ?> supprimé.');
         }
 
-        return $this->redirectToRoute('<?= $route_name ?>_index');
+        return $this->redirectToReferrer();
     }
 }
