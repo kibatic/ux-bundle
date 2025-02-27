@@ -4,6 +4,7 @@ namespace Kibatic\UX\Twig\Components;
 
 use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use Symfony\UX\TwigComponent\ComponentAttributes;
 
 // TODO: voir si le CVA peut améliorer la gestion des variantes (https://symfony.com/bundles/ux-twig-component/current/index.html#component-with-complex-variants-cva)
 class AComponent
@@ -12,6 +13,7 @@ class AComponent
     public ?string $icon = null;
     public string $iconPosition = 'left';
     public bool $iconOnly = false;
+    public array $attr = [];
 
     public bool $modal = false;
     public string $modalFrameId = 'page-content';
@@ -101,5 +103,10 @@ class AComponent
     public function getIconPosition(): ?string
     {
         return $this->getSuperType($this->type)['icon_position'] ?? $this->iconPosition;
+    }
+
+    public function getAttr(): ComponentAttributes
+    {
+        return new ComponentAttributes($this->attr);
     }
 }

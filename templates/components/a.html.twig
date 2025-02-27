@@ -30,7 +30,7 @@
 {%- endif -%}
 
 <a
-    {{ attributes }}
+    {{ this.getAttr().defaults(attributes.all) }}
     class="{{ classAttribute ?? '' }}"
     {{ stimulusAttributes|raw }}
 >
