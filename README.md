@@ -13,36 +13,6 @@ To be able to use the modal stayOnSuccess option, add this to your app.js :
 import TurboHelper from "@kibatic/ux-bundle/dist/turbo-helper";
 ```
 
-// TODO: next step should be done auto with flex
-
-```
-// assets/controllers.json
-{
-    "controllers": {
-        // ...
-        "@kibatic/ux-bundle": {
-            "modal": {
-                "enabled": true,
-                "fetch": "eager"
-            },
-            "global-modal-stack": {
-                "enabled": true,
-                "fetch": "eager"
-            },
-            "global-modal-trigger": {
-                "enabled": true,
-                "fetch": "eager"
-            },
-            "alert": {
-                "enabled": true,
-                "fetch": "eager"
-            }
-        }
-    }
-    // ...
-}
-```
-
 Then build your assets.
 
 // TODO: document using the simpler twig components instead of using includes

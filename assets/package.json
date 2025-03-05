@@ -45,17 +45,21 @@
         "importmap": {
             "@hotwired/stimulus": "^3.0.0",
             "bootstrap": "^5.2.3",
-            "sweetalert2": "^11.7"
+            "bootstrap-icons": "^1.11.1",
+            "sweetalert2": "^11.7",
+            "@kibatuc/ux-bundle": "path:%PACKAGE%/dist/turbo-helper.js"
         }
     },
     "peerDependencies": {
         "@hotwired/stimulus": "^3.0.0",
         "bootstrap": "^5.2.3",
+        "bootstrap-icons": "^1.11.1",
         "sweetalert2": "^11.7"
     },
     "devDependencies": {
         "@hotwired/stimulus": "^3.0.0",
         "bootstrap": "^5.2.3",
+        "bootstrap-icons": "^1.11.1",
         "sweetalert2": "^11.7"
     }
 }
