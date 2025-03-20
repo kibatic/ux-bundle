@@ -33,13 +33,18 @@ export default class extends Controller {
             modal.dispose();
         })
 
-        console.log('Modal -> autoOpen: ' + this.autoOpenValue)
+        // console.log('Modal -> autoOpen: ' + this.autoOpenValue)
 
         if (this.autoOpenValue) {
             this.open()
         }
 
-        this.element.addEventListener('hide.bs.modal', () => {
+        this.element.addEventListener('hide.bs.modal', (event) => {
+            // If the event come from the same modal stack, don't do anything.
+            if (this.element.parentElement.id !== event.target.id) {
+                return
+            }
+
             if (this.removeOnCloseValue) {
                 this.element.remove()
             }
@@ -61,6 +66,32 @@ export default class extends Controller {
 
     async close() {
         this.getModal().hide()
+    }
+
+    refreshRelatedTurboFrames() {
+        console.log('Modal -> refreshRelatedTurboFrames -> relatedTurboFramesValue', this.relatedTurboFramesValue)
+
+        for (let relatedTurboFrameId of this.relatedTurboFramesValue) {
+            let turboFrames = document.querySelectorAll(relatedTurboFrameId)
+
+            console.log('Modal -> refreshRelatedTurboFrames -> try refreshing frame (selector="' + relatedTurboFrameId + '")', turboFrames)
+
+            turboFrames.forEach(turboFrame => {
+                let turboFrameSrc = turboFrame.getAttribute('src')
+
+                // On cherche le src de la première turbo-frame parente qui a un src pour s'en servir de source
+                // sur la frame courante si celle-ci n'en a pas.
+                let parentTurboFrame = turboFrame.parentElement.closest('turbo-frame[src]');
+                let parentTurboFrameSrc = parentTurboFrame && parentTurboFrame.getAttribute('src')
+
+                turboFrameSrc = turboFrameSrc ?? parentTurboFrameSrc ?? document.location
+
+                turboFrame.setAttribute('src', '')
+                turboFrame.setAttribute('src', turboFrameSrc)
+
+                console.log('Modal -> refreshRelatedTurboFrames -> refreshed frame : ' + relatedTurboFrameId + ' (src=' + turboFrameSrc + ')', turboFrame, parentTurboFrame, turboFrameSrc)
+            })
+        }
     }
 
     _turbo_onFrameRender(event) {
@@ -85,27 +116,7 @@ export default class extends Controller {
             this.close()
 
             // On rafraichit les éventuelles turbo-frames liées à la modal.
-            for (let relatedTurboFrameId of this.relatedTurboFramesValue) {
-                let turboFrames = document.querySelectorAll(relatedTurboFrameId)
-
-                console.log('Modal -> onSuccess -> Close -> try refreshing frame (selector="' + relatedTurboFrameId + '")', turboFrames)
-
-                turboFrames.forEach(turboFrame => {
-                    let turboFrameSrc = turboFrame.getAttribute('src')
-
-                    // On cherche le src de la première turbo-frame parente qui a un src pour s'en servir de source
-                    // sur la frame courante si celle-ci n'en a pas.
-                    let parentTurboFrame = turboFrame.parentElement.closest('turbo-frame[src]');
-                    let parentTurboFrameSrc = parentTurboFrame && parentTurboFrame.getAttribute('src')
-
-                    turboFrameSrc = turboFrameSrc ?? parentTurboFrameSrc ?? document.location
-
-                    turboFrame.setAttribute('src', '')
-                    turboFrame.setAttribute('src', turboFrameSrc)
-
-                    console.log('Modal -> onSuccess -> Close -> refreshed frame : ' + relatedTurboFrameId + ' (src=' + turboFrameSrc + ')', turboFrame, parentTurboFrame, turboFrameSrc)
-                })
-            }
+            this.refreshRelatedTurboFrames()
         }
     }
 }

@@ -2,13 +2,14 @@ import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
     static values = {
+        stackId: { type: String, default: 'global-modal-stack' },
         frameSrc: String,
         frameId: String,
         frameTarget: String,
         closeOnSuccess: Boolean,
         stayOnSuccess: Boolean,
         refreshOnSuccess: Boolean,
-        relatedTurboFrames: Array
+        relatedTurboFrames: Array,
     }
 
     connect () {
@@ -22,6 +23,7 @@ export default class extends Controller {
             cancelable: false,
             target: event.target,
             detail: {
+                stackId: this.stackIdValue,
                 frameSrc: this.frameSrcValue !== '' ? this.frameSrcValue : this.element.getAttribute('href'),
                 frameId: this.frameIdValue !== '' ? this.frameIdValue : 'page-content',
                 frameTarget: this.frameTargetValue,

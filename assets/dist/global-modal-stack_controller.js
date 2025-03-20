@@ -1,8 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-    static values = {}
-
     static targets = ['modalModel']
 
     connect() {
@@ -14,6 +12,10 @@ export default class extends Controller {
     }
 
     async add(event) {
+        if (event.detail.stackId !== this.element.id) {
+            return
+        }
+
         let clone = this.modalModelTarget.cloneNode(true)
 
         delete clone.dataset.globalModalStackTarget
@@ -34,9 +36,7 @@ export default class extends Controller {
             }
         }
 
-        console.log('event.detail.closeOnSuccess => ' + event.detail.closeOnSuccess)
         if (event.detail.closeOnSuccess !== null) {
-            console.log('closeOnSuccess => ' + event.detail.closeOnSuccess)
             clone.dataset.modalCloseOnSuccessValue = event.detail.closeOnSuccess
         }
 
@@ -52,13 +52,13 @@ export default class extends Controller {
             clone.dataset.modalRelatedTurboFramesValue = JSON.stringify(event.detail.relatedTurboFrames)
         }
 
-        console.log('Modal Stack -> Add', event.detail, clone.dataset)
+        console.log('Modal Stack (' + event.detail.stackId + ') -> Add', event.detail, clone.dataset)
 
         this.element.append(clone)
     }
 
     removeAll() {
-        let newModalModel =            this.modalModelTarget.cloneNode(true)
+        let newModalModel = this.modalModelTarget.cloneNode(true)
         this.element.innerHTML = ''
         this.element.append(newModalModel)
     }
