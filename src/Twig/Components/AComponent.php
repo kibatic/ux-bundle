@@ -21,6 +21,7 @@ class AComponent
     public bool $modalCloseOnSuccess = false;
     public bool $modalStayOnSuccess = false;
     public array $modalRelatedTurboFrames = [];
+    public ?string $modalStackId = null;
 
     public array $liveAction = [];
     public bool $confirm = false;

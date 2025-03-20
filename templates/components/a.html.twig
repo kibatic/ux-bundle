@@ -25,13 +25,13 @@
             'close_on_success': this.modalCloseOnSuccess ? 'true' : 'false',
             'stay_on_success': this.modalStayOnSuccess ? 'true': 'false',
             'related_turbo_frames': this.modalRelatedTurboFrames,
+            'stack_id': this.modalStackId,
         })
     %}
 {%- endif -%}
 
 <a
-    {{ this.getAttr().defaults(attributes.all) }}
-    class="{{ classAttribute ?? '' }}"
+    {{ this.getAttr().defaults(attributes.all|merge({'class': classAttribute ?? ''})) }}
     {{ stimulusAttributes|raw }}
 >
     {%- if this.getIcon() is not null and this.getIconPosition() == 'left' %}<i class="{{ this.getIcon() }}"></i>{{ hasContent ? ' ' : '' }}{% endif -%}
