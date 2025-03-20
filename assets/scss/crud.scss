@@ -3,11 +3,25 @@ main {
     display: flex;
     justify-content: space-between;
 
+    // Nouvelle façon de faire à base de flex qui accepte n'importe quel type d'élément à la suite pour les actions.
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      @extend .gap-2;
+
+      & > * {
+        align-self: center;
+      }
+    }
+
+    // Ancienne façon de faire à base de ul/li pour les actions.
     ul {
       @extend .list-inline;
 
       li {
         @extend .list-inline-item;
+        @extend .ms-2;
+        @extend .me-0;
       }
 
       .btn-link {
