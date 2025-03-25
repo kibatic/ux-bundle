@@ -1,5 +1,5 @@
 {% set classAttribute -%}
-    btn btn-{{ this.getType() == 'secondary' ? 'outline-primary' : this.getType() }}{% if this.getSize != '' %} btn-{{ this.getSize }}{% endif %}
+    btn btn-{{ this.getType() == 'secondary' ? 'outline-primary' : this.getType() }}{% if this.getSize != '' %} btn-{{ this.getSize }}{% endif %}{% if disabled|default(false) %} disabled{% endif %}
 {%- endset %}
 
 {% extends '@KibaticUX/components/a.html.twig' %}

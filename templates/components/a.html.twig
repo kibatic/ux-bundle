@@ -3,9 +3,9 @@
 
 {% set stimulusAttributes = create_stimulus_attributes() %}
 
-{% if confirm is defined and confirm %}
+{% if (confirm is defined and confirm) or (confirmText is defined and confirmText) %}
     {% set stimulusAttributes = stimulusAttributes|
-        stimulus_controller('confirm', {'text': confirm_text ?? null, 'title': confirm_title ?? null})
+        stimulus_controller('confirm', {'text': confirmText ?? null, 'title': confirmTitle ?? null})
         |stimulus_action('confirm', 'handle')
     %}
 {% endif %}

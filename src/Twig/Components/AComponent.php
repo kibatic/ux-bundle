@@ -25,6 +25,9 @@ class AComponent
 
     public array $liveAction = [];
     public bool $confirm = false;
+    public ?string $confirmTitle = null;
+    public ?string $confirmText = null;
+
 
     protected array $superTypes = [];
 
