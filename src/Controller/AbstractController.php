@@ -36,9 +36,19 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         return parent::render($view, $parameters, $response);
     }
 
-    public function redirectToReferrer(): RedirectResponse
+    public function redirectToReferrer(?string $fallbackRoute = null): RedirectResponse
     {
-        return $this->redirect($this->requestStack->getCurrentRequest()->headers->get('referer'));
+        $referer = $this->requestStack->getCurrentRequest()->headers->get('referer');
+
+        if (!$referer) {
+            if ($fallbackRoute) {
+                return $this->redirectToRoute($fallbackRoute);
+            } else {
+                return new RedirectResponse('/');
+            }
+        }
+
+        return $this->redirect($referer);
     }
     
     public function createForm(string $type, mixed $data = null, array $options = [], bool $autoAction = true): FormInterface
