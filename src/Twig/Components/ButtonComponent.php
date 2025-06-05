@@ -3,14 +3,16 @@
 namespace Kibatic\UX\Twig\Components;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use Twig\Environment;
 
 class ButtonComponent extends AComponent
 {
     public string $size = '';
 
-    public function __construct()
-    {
-        parent::__construct();
+    public function __construct(
+        Environment $twig
+    ) {
+        parent::__construct($twig);
 
         $this->type = 'primary';
 

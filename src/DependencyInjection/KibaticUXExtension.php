@@ -40,11 +40,13 @@ class KibaticUXExtension extends Extension implements PrependExtensionInterface
 
         $container
             ->register('kibatic.ux.twig.component.a', AComponent::class)
+            ->setArguments([new Reference('twig')])
             ->addTag('twig.component', ['key' => 'a', 'template' => '@KibaticUX/components/a.html.twig'])
         ;
 
         $container
             ->register('kibatic.ux.twig.component.button', ButtonComponent::class)
+            ->setArguments([new Reference('twig')])
             ->addTag('twig.component', ['key' => 'btn', 'template' => '@KibaticUX/components/btn.html.twig'])
         ;
     }

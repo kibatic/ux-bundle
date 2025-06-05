@@ -5,6 +5,8 @@ namespace Kibatic\UX\Twig\Components;
 use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\ComponentAttributes;
+use Twig\Environment;
+use Twig\Runtime\EscaperRuntime;
 
 // TODO: voir si le CVA peut améliorer la gestion des variantes (https://symfony.com/bundles/ux-twig-component/current/index.html#component-with-complex-variants-cva)
 class AComponent
@@ -31,8 +33,9 @@ class AComponent
 
     protected array $superTypes = [];
 
-    public function __construct()
-    {
+    public function __construct(
+        protected Environment $twig,
+    ) {
         $this->superTypes = [
             'new' => [
                 'icon' => 'bi-plus-circle',
@@ -111,6 +114,6 @@ class AComponent
 
     public function getAttr(): ComponentAttributes
     {
-        return new ComponentAttributes($this->attr);
+        return new ComponentAttributes($this->attr, $this->twig->getRuntime(EscaperRuntime::class));
     }
 }
