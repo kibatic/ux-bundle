@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
 import { Modal } from 'bootstrap'
+import Swal from "sweetalert2";
 
 export default class extends Controller {
     static values = {
@@ -18,6 +19,16 @@ export default class extends Controller {
         // supprimer l'event listener depuis la méthode disconnect (grâce à l'assignation dans une variable).
         this.turbo_onFrameRender = this._turbo_onFrameRender.bind(this);
         this.turbo_onSubmitEnd = this._turbo_onSubmitEnd.bind(this);
+
+        document.addEventListener('turbo:before-fetch-response', (event) => {
+            if (event.detail.fetchResponse.statusCode === 403) {
+                console.log('Access denied', event.detail.fetchResponse)
+
+                if (this.element.contains(event.target)) {
+                    this.close()
+                }
+            }
+        })
     }
 
     connect() {
