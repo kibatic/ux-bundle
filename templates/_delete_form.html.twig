@@ -9,7 +9,7 @@
     {% if method is defined and method|lower == "delete" %}
     <input type="hidden" name="_method" value="DELETE">
     {% endif %}
-    <button type="submit" class="btn btn-outline-danger">
+    <button type="submit" class="{{ btn_class|default('btn btn-outline-danger') }}">
         <i class="bi bi-trash-fill"></i>{% if btn_label is not defined or btn_label != false %} {{ btn_label|default('Delete'|trans) }}{% endif %}
     </button>
 </form>
