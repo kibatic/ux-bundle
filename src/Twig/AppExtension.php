@@ -34,6 +34,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFunction('live_action', $this->renderLiveAction(...), ['is_safe' => ['html_attr']]),
             new TwigFunction('create_stimulus_attributes', $this->createStimulusAttributes(...))
+            new TwigFunction('inline_if', [$this, 'inlineIf']),
         ];
     }
 
@@ -61,5 +62,12 @@ class AppExtension extends AbstractExtension
     public function createStimulusAttributes(): StimulusAttributes
     {
         return $this->stimulusHelper->createStimulusAttributes();
+    }
+
+    public function inlineIf(array $array, string $separator = ' '): string
+    {
+        $filtered = array_filter($array, fn ($value) => $value !== false);
+
+        return implode($separator, array_keys($filtered));
     }
 }
