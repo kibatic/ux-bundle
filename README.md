@@ -15,9 +15,10 @@ import TurboHelper from "@kibatic/ux-bundle/dist/turbo-helper";
 
 Then build your assets.
 
-// TODO: document using the simpler twig components instead of using includes
+// TODO: document for AssetMapper
 
 # How to use
+
 ## Opening a global modal
 
 ### 1 - Link
@@ -47,7 +48,7 @@ or
 ```
 or
 ```php
-{% include '@KibaticUX/_turbo-offcanvas-btn.html.twig' with {
+{% include '@KibaticUX/_turbo-modal-btn.html.twig' with {
     'btn_url': path('app_user_edit', {'id': user.id}),
     'btn_text': 'Edit',
     'btn_icon': 'edit',
