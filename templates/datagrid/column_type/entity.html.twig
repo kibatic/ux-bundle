@@ -2,7 +2,7 @@
     {%- set action = {
         'url': path(parameters.route, {'id': value.id}|merge(parameters.route_extra_params|default([]))),
         'name': value,
-        'target': parameters.target|default('offcanvas'),
+        'target': parameters.target|default(''),
         'suffix': parameters.suffix|default(''),
         'class': parameters.class|default('')
     } -%}
