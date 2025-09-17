@@ -26,6 +26,7 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFilter('live_action', $this->appendLiveAction(...), ['is_safe' => ['html_attr']]),
+            new TwigFunction('inline_if', [$this, 'inlineIf']),
         ];
     }
 
@@ -33,8 +34,7 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('live_action', $this->renderLiveAction(...), ['is_safe' => ['html_attr']]),
-            new TwigFunction('create_stimulus_attributes', $this->createStimulusAttributes(...)),
-            new TwigFunction('inline_if', [$this, 'inlineIf']),
+            new TwigFunction('create_stimulus_attributes', $this->createStimulusAttributes(...))
         ];
     }
 
