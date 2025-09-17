@@ -74,9 +74,9 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         return parent::redirectToRoute($route, $parameters, $status);
     }
 
-    protected function assertActionCsrfTokenValid(Request $request, object $entity, ?string $actionName = null): void
+    protected function assertActionCsrfTokenValid(Request $request, ?object $entity = null, ?string $actionName = null): void
     {
-        $tokenId = ($actionName ?? $request->get('_route')).'_'.$entity->getId();
+        $tokenId = ($actionName ?? $request->get('_route')) . ($entity ? '_' . $entity->getId() : '');
 
         if (!$this->isCsrfTokenValid($tokenId, $request->get('_token'))) {
             throw new AccessDeniedHttpException("Invalid CSRF token for id : $tokenId.");
