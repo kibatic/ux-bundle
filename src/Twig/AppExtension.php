@@ -26,7 +26,7 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFilter('live_action', $this->appendLiveAction(...), ['is_safe' => ['html_attr']]),
-            new TwigFunction('inline_if', [$this, 'inlineIf']),
+            new TwigFilter('inline_if', $this->inlineIf(...)),
         ];
     }
 
