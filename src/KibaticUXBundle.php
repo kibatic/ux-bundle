@@ -23,7 +23,7 @@ final class KibaticUXBundle extends AbstractBundle implements CompilerPassInterf
         $container->addCompilerPass($this);
     }
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $container->getDefinition('twig')
             ->addMethodCall('addGlobal', ['turbo', $container->getDefinition(Turbo::class)])
