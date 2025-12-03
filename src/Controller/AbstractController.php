@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Translation\TranslatableMessage;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\Turbo\TurboBundle;
 use Twig\Environment;
 
@@ -16,7 +18,8 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
 {
     public function __construct(
         protected RequestStack $requestStack,
-        protected Environment $twig
+        protected Environment $twig,
+        protected TranslatorInterface $translator,
     ) {
     }
 
@@ -93,7 +96,7 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         return $this->requestStack->getMainRequest();
     }
 
-    public function addAlert(string $icon, ?string $title = null, ?string $text = null, array $options = []): void
+    public function addAlert(string $icon, null|string|TranslatableMessage $title = null, null|string|TranslatableMessage $text = null, array $options = []): void
     {
         $options = $options + [
             'icon' => $icon,
@@ -105,7 +108,7 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         $this->addCustomAlert($options);
     }
 
-    public function addQuickAlert(string $icon, ?string $title = null, ?string $text = null, array $options = [], ?string $namespace = null): void
+    public function addQuickAlert(string $icon, null|string|TranslatableMessage $title = null, null|string|TranslatableMessage $text = null, array $options = [], ?string $namespace = null): void
     {
         $options = $options + [
             'icon' => $icon,
@@ -122,18 +125,25 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     /**
      * Attention, malgré le nom de "toast", ça reste une alerte et il ne peut y en avoir qu'une à la fois.
      */
-    public function addToastAlert(string $icon, ?string $title = null, ?string $text = null, array $options = []): void
+    public function addToastAlert(string $icon, null|string|TranslatableMessage $title = null, null|string|TranslatableMessage $text = null, array $options = []): void
     {
         $options = [
+            ...$options,
             'toast' => true,
             'position' => 'top-end',
-        ] + $options;
+        ];
 
         $this->addQuickAlert($icon, $title, $text, $options);
     }
 
     public function addCustomAlert($options = [], ?string $namespace = null): void
     {
+        foreach ($options as $k => $v) {
+            if ($v instanceof TranslatableMessage) {
+                $options[$k] = $this->translator->trans($v);
+            }
+        }
+
         $this->addFlash($namespace ?? 'sweet-alert', ['options' => $options]);
     }
 }
