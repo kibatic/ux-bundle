@@ -77,12 +77,12 @@ namespace <?= $class_data->getNamespace() ?>;
 <?= $generator->generateRouteForControllerMethod(sprintf("$route_path/{%s}", $entity_identifier), sprintf('%s_delete', $route_name), ['POST']) ?>
     public function delete(Request $request, <?= $entity_class_name ?> $<?= $entity_var_singular ?>, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$<?= $entity_var_singular ?>->get<?= ucfirst($entity_identifier) ?>(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($<?= $entity_var_singular ?>);
-            $entityManager->flush();
+        $this->assertActionCsrfTokenValid($request, $<?= $entity_var_singular ?>);
+        
+        $entityManager->remove($<?= $entity_var_singular ?>);
+        $entityManager->flush();
 
-            $this->addToastAlert('success', '<?= ucfirst($entity_var_singular) ?> supprimé.');
-        }
+        $this->addToastAlert('success', '<?= ucfirst($entity_var_singular) ?> supprimé.');
 
         return $this->redirectToReferrer();
     }
