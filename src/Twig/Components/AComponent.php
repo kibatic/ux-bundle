@@ -102,7 +102,7 @@ class AComponent
         return $icon;
     }
 
-    public function getContent(): ?string
+    public function getContent(): string|TranslatableMessage|null
     {
         return $this->getSuperType($this->type)['content'] ?? null;
     }
