@@ -7,6 +7,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\ComponentAttributes;
 use Twig\Environment;
 use Twig\Runtime\EscaperRuntime;
+use function Symfony\Component\Translation\t;
 
 // TODO: voir si le CVA peut améliorer la gestion des variantes (https://symfony.com/bundles/ux-twig-component/current/index.html#component-with-complex-variants-cva)
 class AComponent
@@ -38,39 +39,39 @@ class AComponent
     ) {
         $this->superTypes = [
             'new' => [
-                'icon' => 'bi-plus-circle',
-                'content' => new TranslatableMessage('Add'),
+                'icon' => 'bi:plus-circle',
+                'content' => t('Add'),
             ],
             'edit' => [
-                'icon' => 'bi-pencil',
-                'content' => new TranslatableMessage('Edit'),
+                'icon' => 'bi:pencil',
+                'content' => t('Edit'),
             ],
             'show' => [
-                'icon' => 'bi-eye',
-                'content' => new TranslatableMessage('Show'),
+                'icon' => 'bi:eye',
+                'content' => t('Show'),
             ],
             'save' => [
-                'icon' => 'bi-save2',
-                'content' => new TranslatableMessage('Save'),
+                'icon' => 'bi:save2',
+                'content' => t('Save'),
             ],
             'delete' => [
-                'icon' => 'bi-trash',
-                'content' => new TranslatableMessage('Delete'),
+                'icon' => 'bi:trash',
+                'content' => t('Delete'),
                 'type' => 'outline-danger',
             ],
             'back' => [
-                'icon' => 'bi-arrow-left-circle',
-                'content' => new TranslatableMessage('Back'),
+                'icon' => 'bi:arrow-left-circle',
+                'content' => t('Back'),
                 'type' => 'secondary',
             ],
             'prev' => [
-                'icon' => 'bi-arrow-left-circle',
-                'content' => new TranslatableMessage('Previous'),
+                'icon' => 'bi:arrow-left-circle',
+                'content' => t('Previous'),
                 'type' => 'secondary',
             ],
             'next' => [
-                'icon' => 'bi-arrow-right-circle',
-                'content' => new TranslatableMessage('Next'),
+                'icon' => 'bi:arrow-right-circle',
+                'content' => t('Next'),
                 'type' => 'primary',
                 'icon_position' => 'right'
             ],
@@ -93,10 +94,6 @@ class AComponent
 
          if (!$icon) {
             return null;
-        }
-
-        if (!strpos($icon, ' ')) {
-            $icon = "bi $icon";
         }
 
         return $icon;

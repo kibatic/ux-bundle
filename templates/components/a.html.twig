@@ -34,7 +34,7 @@
     {{ this.getAttr().defaults(attributes.all|merge({'class': classAttribute ?? ''})) }}
     {{ stimulusAttributes|raw }}
 >
-    {%- if this.getIcon() is not null and this.getIconPosition() == 'left' %}<i class="{{ this.getIcon() }}"></i>{{ hasContent ? ' ' : '' }}{% endif -%}
+    {%- if this.getIcon() is not null and this.getIconPosition() == 'left' %}<twig:ux:icon name="{{ this.getIcon() }}" />{{ hasContent ? ' ' : '' }}{% endif -%}
     {%- block content -%}{{- not iconOnly ? this.getContent()|trans : '' -}}{%- endblock -%}
-    {%- if this.getIcon() is not null and this.getIconPosition() == 'right' %}{{ hasContent ? ' ' : '' }}<i class="{{ this.getIcon() }}"></i>{% endif -%}
+    {%- if this.getIcon() is not null and this.getIconPosition() == 'right' %}{{ hasContent ? ' ' : '' }}<twig:ux:icon name="{{ this.getIcon() }}" />{% endif -%}
 </a>
