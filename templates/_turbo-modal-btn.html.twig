@@ -1,5 +1,5 @@
 {% set btn_text %}
-    {% if (btn_icon ?? false) != false %}<span class="bi bi-{{ btn_icon }}"></span> {% endif %}
+    {% if (btn_icon ?? false) != false %}<twig:ux:icon name="{{ btn_icon }}" /> {% endif %}
     {% if btn_text != false %}{{ btn_text ?? 'Afficher' }}{% endif %}
 {% endset %}
 

@@ -2,6 +2,6 @@
     {{ form_widget(form) }}
 
     <button class="btn btn-success">
-        <i class="bi bi-check-circle"></i> {{ button_label|default('Enregistrer') }}
+        <twig:ux:icon name="bi:check-circle" /> {{ button_label|default('Enregistrer') }}
     </button>
 {{ form_end(form) }}
