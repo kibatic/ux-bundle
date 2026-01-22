@@ -77,7 +77,7 @@ namespace <?= $class_data->getNamespace() ?>;
 <?= $generator->generateRouteForControllerMethod(sprintf("$route_path/{%s}", $entity_identifier), sprintf('%s_delete', $route_name), ['POST']) ?>
     public function delete(Request $request, <?= $entity_class_name ?> $<?= $entity_var_singular ?>, EntityManagerInterface $entityManager): Response
     {
-        $this->assertActionCsrfTokenValid($request, $<?= $entity_var_singular ?>);
+        $this->assertActionCsrfTokenValid($request, $<?= $entity_var_singular ?>, 'delete');
         
         $entityManager->remove($<?= $entity_var_singular ?>);
         $entityManager->flush();
