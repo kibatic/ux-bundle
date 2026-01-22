@@ -37,8 +37,8 @@ section {
   padding: $spacer;
   margin-bottom: $spacer;
 
-  p.alert-info:first-child,
-  .table {
+  p.alert,
+  table.table {
     margin-bottom: 0;
   }
 }
