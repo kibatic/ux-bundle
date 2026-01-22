@@ -1,19 +1,21 @@
-header {
-  display: flex;
-  justify-content: space-between;
+main {
+  header {
+    display: flex;
+    justify-content: space-between;
 
-  // Ancienne façon de faire à base de ul/li pour les actions.
-  ul {
-    @extend .list-inline;
+    // Ancienne façon de faire à base de ul/li pour les actions.
+    ul {
+      @extend .list-inline;
 
-    li {
-      @extend .list-inline-item;
-      @extend .ms-2;
-      @extend .me-0;
-    }
+      li {
+        @extend .list-inline-item;
+        @extend .ms-2;
+        @extend .me-0;
+      }
 
-    .btn-link {
-      padding: 0;
+      .btn-link {
+        padding: 0;
+      }
     }
   }
 }
@@ -34,6 +36,10 @@ section {
   background-color: $white;
   padding: $spacer;
   margin-bottom: $spacer;
+
+  p.alert-info:first-child {
+    margin-bottom: 0;
+  }
 }
 
 form.crud {
