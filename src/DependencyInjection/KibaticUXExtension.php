@@ -6,6 +6,7 @@ use Kibatic\UX\EventListener\ResponseListener;
 use Kibatic\UX\Maker\MakeCrud;
 use Kibatic\UX\Turbo;
 use Kibatic\UX\Twig\Components\AComponent;
+use Kibatic\UX\Twig\Components\ActionComponent;
 use Kibatic\UX\Twig\Components\ButtonComponent;
 use Symfony\Component\AssetMapper\AssetMapperInterface;
 use Symfony\Component\Config\FileLocator;
@@ -48,6 +49,12 @@ class KibaticUXExtension extends Extension implements PrependExtensionInterface
             ->register('kibatic.ux.twig.component.button', ButtonComponent::class)
             ->setArguments([new Reference('twig')])
             ->addTag('twig.component', ['key' => 'btn', 'template' => '@KibaticUX/components/btn.html.twig'])
+        ;
+
+        $container
+            ->register('kibatic.ux.twig.component.action', ActionComponent::class)
+            ->setArguments([new Reference('twig')])
+            ->addTag('twig.component', ['key' => 'action', 'template' => '@KibaticUX/components/action.html.twig'])
         ;
     }
 

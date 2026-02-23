@@ -1,0 +1,29 @@
+<form
+    method="post"
+    action="{{ url ?? path(this.route, {id: this.entity.id}) }}"
+
+    {# TODO: attr auto #}
+    {% if class is defined %}class="{{ class }}"{% endif %}
+    {% if title is defined %}title="{{ title }}"{% endif %}
+
+    {% if this.turboFrame %}data-turbo-frame="{{ this.turboFrame }}"{% endif %}
+    {% if this.confirm %}data-controller="confirm"{% endif %}
+    {% if this.confirm and this.confirmTitle is not null %}data-confirm-title-value="{{ this.confirmTitle }}"{% endif %}
+    {% if this.confirm and this.confirmMessage is not null %}data-confirm-text-value="{{ this.confirmMessage }}"{% endif %}
+>
+    {% set csrf_token_id = (name ?? route ?? 'action') ~ '_' ~ entity.id %}
+    {% if app.environment == 'dev' and app.request.get('debug') %}
+        {{dump(csrf_token_id)}}
+    {% endif %}
+    <input type="hidden" name="_token" value="{{ csrf_token(csrf_token_id) }}">
+    {% if this.method %}
+        <input type="hidden" name="_method" value="{{ this.method|upper }}">
+    {% endif %}
+    <button type="submit" class="{{ btnClass|default('btn btn-outline-primary') }}">
+        {%- block content -%}
+            {% if this.icon %}<twig:ux:icon name="{{ this.icon }}" />{% endif %}
+            {% if this.icon and this.label %} {% endif %}
+            {% if this.label != false %}{{ this.label|default('Action')|trans }}{% endif %}
+        {%- endblock -%}
+    </button>
+</form>
