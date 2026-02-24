@@ -18,10 +18,10 @@ namespace <?= $class_data->getNamespace() ?>;
             ])
             ->getForm();
 
-        // TODO: remonter getGrid
+        $grid = $<?= $datagrid_builder_var ?>->initialize(filtersForm: $form)->getGrid();
 
         return $this->render('<?= $templates_path ?>/index.html.twig', [
-            'grid' => $<?= $datagrid_builder_var ?>->initialize(filtersForm: $form)->getGrid(),
+            'grid' => $grid,
             'form' => $form,
         ]);
     }
