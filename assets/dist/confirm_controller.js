@@ -11,24 +11,27 @@ export default class extends Controller {
 
     alreadySubmitted = false
     alreadyClicked = false
+    boundEvent = null
+    boundHandler = null
 
     connect() {
-        let confirmOptions = {
-            title: this.titleValue,
-            text: this.textValue,
-            html: this.textValue,
-            icon: 'warning',
-            showCancelButton: true,
-            cancelButtonText: this.cancelBtnValue,
-            confirmButtonText: this.confirmBtnValue,
-            inputAutoFocus: false,
-        }
+        this.boundHandler = this.handle.bind(this)
+        this.boundEvent = this.getEventType()
 
         // S'il n'y a pas d'appel explicite (ce qui est le cas le plus courant) on rajoute l'event listener automatiquement.
         if (!this.element.getAttribute('data-action')?.includes('confirm#handle')) {
-            const eventType = this.element.tagName === 'FORM' ? 'submit' : 'click'
-            this.element.addEventListener(eventType, this.handle.bind(this))
+            this.element.addEventListener(this.boundEvent, this.boundHandler)
         }
+    }
+
+    disconnect() {
+        if (this.boundEvent && this.boundHandler) {
+            this.element.removeEventListener(this.boundEvent, this.boundHandler)
+        }
+    }
+
+    getEventType() {
+        return this.element.tagName === 'FORM' ? 'submit' : 'click'
     }
 
     getConfirmOptions() {
