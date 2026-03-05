@@ -9,7 +9,7 @@
         {% if not turbo.requestFromModal %}
         <ul>
             <li><twig:btn href="{{ path('<?= $route_name ?>_index') }}" type="back" /></li>
-            <li>{{ include('@KibaticUX/_delete_form.html.twig', {'route': '<?= $route_name ?>_delete', 'entity': <?= $entity_twig_var_singular ?>}) }}</li>
+            <li><twig:action route="<?= $route_name ?>_delete" :entity="<?= $entity_twig_var_singular ?>" icon="bi:trash-fill" btnClass="btn btn-outline-danger" label="{{ 'Delete'|trans }}" confirm /></li>
             <li><twig:btn href="{{ path('<?= $route_name ?>_edit', {'<?= $entity_identifier ?>': <?= $entity_twig_var_singular ?>.<?= $entity_identifier ?>}) }}" type="edit" modal /></li>
         </ul>
         {% endif %}

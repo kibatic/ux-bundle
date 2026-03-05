@@ -12,7 +12,7 @@
     {% if this.confirm and this.confirmMessage is not null %}data-confirm-text-value="{{ this.confirmMessage }}"{% endif %}
 >
     {% set csrf_token_id = (name ?? route ?? 'action') ~ '_' ~ entity.id %}
-    {% if app.environment == 'dev' and app.request.get('debug') %}
+    {% if app.environment == 'dev' and app.request.query.get('debug') %}
         {{dump(csrf_token_id)}}
     {% endif %}
     <input type="hidden" name="_token" value="{{ csrf_token(csrf_token_id) }}">

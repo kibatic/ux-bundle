@@ -5,7 +5,11 @@
     {% if confirm_text is defined %}data-confirm-text-value="{{ confirm_text }}"{% endif %}
     {% if confirm_title is defined %}data-confirm-title-value="{{ confirm_title }}"{% endif %}
 >
-    <input type="hidden" name="_token" value="{{ csrf_token('delete_' ~ entity.id) }}">
+    {% set csrf_token_id = (name ?? route ?? 'action') ~ '_' ~ entity.id %}
+    {% if app.environment == 'dev' and app.request.query.get('debug') %}
+        {{dump(csrf_token_id)}}
+    {% endif %}
+    <input type="hidden" name="_token" value="{{ csrf_token(csrf_token_id) }}">
     {% if method is defined and method|lower == "delete" %}
     <input type="hidden" name="_method" value="DELETE">
     {% endif %}
