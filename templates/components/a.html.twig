@@ -31,7 +31,7 @@
 {%- endif -%}
 
 <a
-    {{ this.getAttr().defaults(attributes.all|merge({'class': classAttribute ?? ''})) }}
+    {{ this.getAttributes().defaults(attributes.all) }}
     {{ stimulusAttributes|raw }}
 >
     {%- if this.getIcon() is not null and this.getIconPosition() == 'left' %}<twig:ux:icon name="{{ this.getIcon() }}" />{{ hasContent ? ' ' : '' }}{% endif -%}

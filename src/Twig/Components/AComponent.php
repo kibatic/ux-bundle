@@ -16,6 +16,7 @@ class AComponent
     public ?string $icon = null;
     public string $iconPosition = 'left';
     public bool $iconOnly = false;
+    // TODO: inutile ? on peut directement mettre des attributs sur le component
     public array $attr = [];
 
     public bool $modal = false;
@@ -109,7 +110,7 @@ class AComponent
         return $this->getSuperType($this->type)['icon_position'] ?? $this->iconPosition;
     }
 
-    public function getAttr(): ComponentAttributes
+    public function getAttributes(): ComponentAttributes
     {
         return new ComponentAttributes($this->attr, $this->twig->getRuntime(EscaperRuntime::class));
     }

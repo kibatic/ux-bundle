@@ -3,7 +3,9 @@
 namespace Kibatic\UX\Twig\Components;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use Symfony\UX\TwigComponent\ComponentAttributes;
 use Twig\Environment;
+use Twig\Runtime\EscaperRuntime;
 
 class ButtonComponent extends AComponent
 {
@@ -29,5 +31,16 @@ class ButtonComponent extends AComponent
     public function getSize(): string
     {
         return $this->getSuperType($this->type)['size'] ?? $this->size;
+    }
+
+    public function getAttributes(): ComponentAttributes
+    {
+        $class = "btn btn-{$this->getType()}";
+
+        if ($this->getSize()) {
+            $class .= " btn-{$this->getSize()}";
+        }
+
+        return parent::getAttributes()->defaults(['class' => $class]);
     }
 }
