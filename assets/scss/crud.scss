@@ -52,5 +52,7 @@ form.crud {
 table.table-show {
   th {
     text-align: right;
+    width: 1%;
+    white-space: nowrap;
   }
 }
