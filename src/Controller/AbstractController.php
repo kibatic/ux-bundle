@@ -54,7 +54,6 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         }
 
         $referer = $currentRequest->headers->get('referer');
-        $referer = null;
 
         if (!$referer) {
             if ($fallbackRouteName) {
