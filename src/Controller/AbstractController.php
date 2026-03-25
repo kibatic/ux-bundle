@@ -13,6 +13,7 @@ use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\Turbo\TurboBundle;
 use Twig\Environment;
+use Webmozart\Assert\Assert;
 
 class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
@@ -39,13 +40,25 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         return parent::render($view, $parameters, $response);
     }
 
-    public function redirectToReferrer(?string $fallbackRoute = null): RedirectResponse
+    public function redirectToReferrer(?string $fallbackRouteName = null, array $fallbackRouteParameters = [], bool $onlyFromModal = false): RedirectResponse
     {
-        $referer = $this->requestStack->getCurrentRequest()->headers->get('referer');
+        $mainRequest = $this->requestStack->getMainRequest();
+        $currentRequest = $this->requestStack->getCurrentRequest();
+
+        if ($onlyFromModal) {
+            Assert::notNull($fallbackRouteName, 'When onlyFromModal=true, fallbackRouteName must be provided.');
+        }
+
+        if ($onlyFromModal && !$mainRequest->headers->has('Turbo-From-Modal')) {
+            return $this->redirectToRoute($fallbackRouteName, $fallbackRouteParameters);
+        }
+
+        $referer = $currentRequest->headers->get('referer');
+        $referer = null;
 
         if (!$referer) {
-            if ($fallbackRoute) {
-                return $this->redirectToRoute($fallbackRoute);
+            if ($fallbackRouteName) {
+                return $this->redirectToRoute($fallbackRouteName, $fallbackRouteParameters);
             } else {
                 return new RedirectResponse('/');
             }

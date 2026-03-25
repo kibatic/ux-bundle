@@ -19,8 +19,14 @@ const TurboHelper = class {
         })
 
         document.addEventListener('turbo:before-fetch-request', (event) => {
+            // We're doing a request to fill a modal
             if (event.target.dataset.modalTarget) {
                 event.detail.fetchOptions.headers['Turbo-Modal'] = true;
+            }
+
+            // We're doing a request from a modal
+            if (event.target.closest('.modal')) {
+                event.detail.fetchOptions.headers['Turbo-From-Modal'] = true
             }
 
             if (!event.target.dataset.turboOnSuccess) {
