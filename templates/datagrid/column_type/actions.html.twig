@@ -8,15 +8,14 @@
                     {% include action.template with action %}
                 {% else %}
                     <twig:btn
+                        label="{{ action.name is defined ? action.name|trans : false }}"
                         href="{{ action.url }}"
                         type="{{ action.btn_type|default('secondary') }}"
                         size="{{ action.btn_size|default('sm') }}"
                         icon="{{ action.icon|default('') }}"
                         modal="{{ action.modal is defined and action.modal }}"
                         :attr="action.attr|default({})"
-                    >
-                        {{ action.name|trans }}
-                    </twig:btn>
+                    />
                 {% endif %}
             </li>
         {% endif %}

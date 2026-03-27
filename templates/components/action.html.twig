@@ -19,7 +19,7 @@
     {% if this.method %}
         <input type="hidden" name="_method" value="{{ this.method|upper }}">
     {% endif %}
-    <button type="submit" class="{{ btnClass|default('btn btn-outline-primary') }}">
+    <button type="submit" {{ this.getBtnAttributes().defaults(attributes.all) }}>
         {%- block content -%}
             {% if this.icon %}<twig:ux:icon name="{{ this.icon }}" />{% endif %}
             {% if this.icon and this.label %} {% endif %}
