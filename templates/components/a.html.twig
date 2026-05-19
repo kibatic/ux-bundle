@@ -35,6 +35,6 @@
     {{ stimulusAttributes|raw }}
 >
     {%- if this.getIcon() is not null and this.getIconPosition() == 'left' %}<twig:ux:icon name="{{ this.getIcon() }}" />{{ hasContent ? ' ' : '' }}{% endif -%}
-    {%- block content -%}{{- not iconOnly ? this.getContent()|trans : '' -}}{%- endblock -%}
+    {%- block content -%}{{- not iconOnly ? this.getContent() : '' -}}{%- endblock -%}
     {%- if this.getIcon() is not null and this.getIconPosition() == 'right' %}{{ hasContent ? ' ' : '' }}<twig:ux:icon name="{{ this.getIcon() }}" />{% endif -%}
 </a>
