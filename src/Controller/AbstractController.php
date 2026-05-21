@@ -112,11 +112,11 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     public function addAlert(string $icon, null|string|TranslatableMessage $title = null, null|string|TranslatableMessage $text = null, array $options = []): void
     {
         $options = $options + [
-                'icon' => $icon,
-                'title' => $title,
-                'text' => $text,
-                'showConfirmButton' => true,
-            ];
+            'icon' => $icon,
+            'title' => $title,
+            'text' => $text,
+            'showConfirmButton' => true,
+        ];
 
         $this->addCustomAlert($options);
     }
@@ -124,13 +124,13 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     public function addQuickAlert(string $icon, null|string|TranslatableMessage $title = null, null|string|TranslatableMessage $text = null, array $options = [], ?string $namespace = null): void
     {
         $options = $options + [
-                'icon' => $icon,
-                'title' => $title,
-                'text' => $text,
-                'timer' => 3000,
-                'timerProgressBar' => true,
-                'showConfirmButton' => false,
-            ];
+            'icon' => $icon,
+            'title' => $title,
+            'text' => $text,
+            'timer' => 3000,
+            'timerProgressBar' => true,
+            'showConfirmButton' => false,
+        ];
 
         $this->addCustomAlert($options, $namespace);
     }
