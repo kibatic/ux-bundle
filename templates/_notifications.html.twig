@@ -1,7 +1,9 @@
+{% set always = always ?? true %}
+
 <div id="notifications" data-turbo-temporary>
-    {#    {% if not turbo.requestHasFrame %}#}
-    {% for options in app.session.flashbag.get(namespace|default('sweet-alert')) %}
-        <div {{ stimulus_controller('alert', options) }}></div>
-    {% endfor %}
-    {#    {% endif %}#}
+    {% if always or (turbo and turbo.requestHasFrame) %}
+        {% for options in app.session.flashbag.get(namespace|default('sweet-alert')) %}
+            <div {{ stimulus_controller('alert', options) }}></div>
+        {% endfor %}
+    {% endif %}
 </div>
