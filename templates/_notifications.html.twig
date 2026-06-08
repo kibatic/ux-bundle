@@ -1,7 +1,30 @@
+{#
+    always :
+        - true (default) : always display notifications
+        - false : only display notifications if the request is a turbo request and if the request is from the specified frame (see only_from_frame).
+    only_from_frame :
+        Specify the frame from which the request must come to display notifications (only used if always is false).
+        If null (default), notifications will be displayed for all requests that are not from a turbo frame.
+#}
 {% set always = always ?? true %}
+{% set only_from_frame = only_from_frame ?? null %}
 
 <div id="notifications" data-turbo-temporary>
-    {% if always or (turbo and turbo.requestHasFrame) %}
+    {% if
+        always
+        or
+        (
+            turbo
+            and turbo.requestHasFrame
+            and turbo.requestedFrame == only_from_frame
+        )
+        or
+        (
+            turbo
+            and not turbo.requestHasFrame
+            and only_from_frame == null
+        )
+    %}
         {% for options in app.session.flashbag.get(namespace|default('sweet-alert')) %}
             <div {{ stimulus_controller('alert', options) }}></div>
         {% endfor %}
