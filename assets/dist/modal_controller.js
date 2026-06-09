@@ -108,6 +108,11 @@ export default class extends Controller {
     _turbo_onFrameRender(event) {
         if (this.stayOnSuccessValue) {
             this.element.querySelectorAll('form').forEach(form => {
+                // Ignore forms that are inside a nested modal
+                if (form.closest('.modal') !== this.element) {
+                    return
+                }
+
                 form.dataset.turboOnSuccess = 'stay'
             })
         }
@@ -119,7 +124,12 @@ export default class extends Controller {
         }
 
         if (event.target.dataset.ignoredByModal) {
-            return;
+            return
+        }
+
+        // L'événement ne provient pas de la modal gérée par ce controller
+        if (this.element !== event.target.closest('.modal')) {
+            return
         }
 
         // On ferme automatiquement la modal si l'option closeOnSuccess est activée.
