@@ -52,6 +52,8 @@ export default class extends Controller {
             clone.dataset.modalRelatedTurboFramesValue = JSON.stringify(event.detail.relatedTurboFrames)
         }
 
+        clone.addEventListener('hidden.bs.modal', () => clone.remove());
+
         console.log('Modal Stack (' + event.detail.stackId + ') -> Add', event.detail, clone.dataset)
 
         this.element.append(clone)
