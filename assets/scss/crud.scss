@@ -32,7 +32,6 @@ main, turbo-frame, .modal-content {
 }
 
 section {
-  @extend .clearfix;
   background-color: $white;
   padding: $spacer;
   margin-bottom: $spacer;
