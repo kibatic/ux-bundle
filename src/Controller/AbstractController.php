@@ -27,14 +27,24 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     protected function render(string $view, array $parameters = [], ?Response $response = null, bool $handleTurboOnSuccess = true): Response
     {
         $request = $this->requestStack->getMainRequest();
+        $response = $response ?? new Response();
+
+        if ($response?->isSuccessful()) {
+            foreach ($parameters as $v) {
+                if ($v instanceof FormInterface && $v->isSubmitted() && !$v->isValid()) {
+                    $response->setStatusCode(422);
+                    break;
+                }
+            }
+        }
 
         if ($handleTurboOnSuccess
+            && $response->isSuccessful() // TODO: À voir si on veut pas gérer d'autres cas que 20X.
             && $request->headers->get('turbo-on-success') === 'stay'
             && $request->getPreferredFormat() === TurboBundle::STREAM_FORMAT
         ) {
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
-            return (new Response())
-                ->setContent($this->twig->render('@KibaticUX/notifications.stream.html.twig'));
+            return $response->setContent($this->twig->render('@KibaticUX/notifications.stream.html.twig'));
         }
 
         return parent::render($view, $parameters, $response);
