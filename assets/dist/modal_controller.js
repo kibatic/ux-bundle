@@ -22,8 +22,6 @@ export default class extends Controller {
 
         document.addEventListener('turbo:before-fetch-response', (event) => {
             if (event.detail.fetchResponse.statusCode === 403) {
-                console.log('Access denied', event.detail.fetchResponse)
-
                 if (this.element.contains(event.target)) {
                     this.close()
                 }
@@ -39,12 +37,17 @@ export default class extends Controller {
         document.addEventListener('turbo:before-cache', () => {
             this.element.classList.remove('fade');
             let modal = this.getModal()
-            modal._backdrop._config.isAnimated = false;
+            // Turbo prend son instantané juste après turbo:before-cache, la fermeture doit donc être synchrone.
+            // Retirer fade suffit pour la modale, mais le backdrop lit son option isAnimated et attend sa transition dans un setTimeout.
+            // Bootstrap n'expose aucune API publique pour couper cette animation, d'où l'accès à la propriété privée _backdrop.
+            // Sans elle, le nettoyage de body (modal-open, overflow) serait différé et échouerait après le dispose() ci-dessous.
+            // La garde évite une erreur immédiate si une version de Bootstrap renomme cette propriété, ce point serait alors à revoir.
+            if (modal._backdrop?._config) {
+                modal._backdrop._config.isAnimated = false;
+            }
             modal.hide();
             modal.dispose();
         })
-
-        // console.log('Modal -> autoOpen: ' + this.autoOpenValue)
 
         if (this.autoOpenValue) {
             this.open()
@@ -80,12 +83,8 @@ export default class extends Controller {
     }
 
     refreshRelatedTurboFrames() {
-        console.log('Modal -> refreshRelatedTurboFrames -> relatedTurboFramesValue', this.relatedTurboFramesValue)
-
         for (let relatedTurboFrameId of this.relatedTurboFramesValue) {
             let turboFrames = document.querySelectorAll(relatedTurboFrameId)
-
-            console.log('Modal -> refreshRelatedTurboFrames -> try refreshing frame (selector="' + relatedTurboFrameId + '")', turboFrames)
 
             turboFrames.forEach(turboFrame => {
                 let turboFrameSrc = turboFrame.getAttribute('src')
@@ -99,8 +98,6 @@ export default class extends Controller {
 
                 turboFrame.setAttribute('src', '')
                 turboFrame.setAttribute('src', turboFrameSrc)
-
-                console.log('Modal -> refreshRelatedTurboFrames -> refreshed frame : ' + relatedTurboFrameId + ' (src=' + turboFrameSrc + ')', turboFrame, parentTurboFrame, turboFrameSrc)
             })
         }
     }

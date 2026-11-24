@@ -32,22 +32,25 @@
         "symfony/framework-bundle": "^6.4|^7.0|^8.0",
         "symfony/http-foundation": "^6.4|^7.0|^8.0",
         "symfony/http-kernel": "^6.4|^7.0|^8.0",
-        "symfony/maker-bundle": "^1.50|^2.0",
         "symfony/routing": "^6.4|^7.0|^8.0",
         "symfony/translation": "^6.4|^7.0|^8.0",
         "symfony/validator": "^6.4|^7.0|^8.0",
         "symfony/stimulus-bundle": "^2.28|^3.0",
+        "symfony/ux-turbo": "^2.13|^3.0",
         "symfony/ux-twig-component": "^2.13|^3.0",
         "symfony/ux-icons": "^2.32|^3.0",
         "webmozart/assert": "*"
     },
     "require-dev": {
+        "symfony/maker-bundle": "^1.50|^2.0"
+    },
+    "suggest": {
+        "symfony/maker-bundle": "Required by the make:crud-ux command"
     },
     "extra": {
         "thanks": {
             "name": "symfony/ux",
             "url": "https://github.com/symfony/ux"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }

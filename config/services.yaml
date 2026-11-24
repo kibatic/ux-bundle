@@ -7,10 +7,3 @@ services:
     public: true
     tags:
       - { name: twig.extension }
-
-  Kibatic\UX\Maker\MakeCrud:
-    arguments:
-      $doctrineHelper: '@maker.doctrine_helper'
-      $formTypeRenderer: '@maker.renderer.form_type_renderer'
-    tags:
-      - { name: maker.command }

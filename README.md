@@ -4,18 +4,63 @@
 
 ```bash
 composer require kibatic/ux-bundle
+```
+
+Le bundle fournit des controllers Stimulus et un module `turbo-helper.js`.
+Ce module est nécessaire pour l'option `stayOnSuccess` des modales.
+
+### Avec AssetMapper
+
+Symfony Flex déclare les controllers et le module à l'installation.
+Sans Flex, ou pour vérifier, voici ce qui doit être présent.
+
+Dans `importmap.php` :
+
+```php
+return [
+    // ...
+    '@kibatic/ux-bundle/turbo-helper.js' => ['path' => '@kibatic/ux-bundle/turbo-helper.js'],
+];
+```
+
+Le chemin `@kibatic/ux-bundle/` est exposé par le bundle auprès d'AssetMapper.
+`@hotwired/stimulus`, `@hotwired/turbo`, `bootstrap` et `sweetalert2` doivent aussi figurer dans l'importmap.
+
+Dans `assets/controllers.json` :
+
+```json
+{
+    "controllers": {
+        "@kibatic/ux-bundle": {
+            "modal": {"enabled": true, "fetch": "eager"},
+            "global-modal-stack": {"enabled": true, "fetch": "eager"},
+            "global-modal-trigger": {"enabled": true, "fetch": "eager"},
+            "alert": {"enabled": true, "fetch": "eager"},
+            "confirm": {"enabled": true, "fetch": "eager"}
+        }
+    }
+}
+```
+
+Dans `assets/app.js` :
+
+```js
+import TurboHelper from "@kibatic/ux-bundle/turbo-helper.js";
+```
+
+### Avec Webpack Encore
+
+```bash
 yarn install --force
 ```
 
-To be able to use the modal stayOnSuccess option, add this to your app.js :
+Dans `assets/app.js` :
 
+```js
+import TurboHelper from "@kibatic/ux/dist/turbo-helper.js";
 ```
-import TurboHelper from "@kibatic/ux-bundle/dist/turbo-helper";
-```
 
-Then build your assets.
-
-// TODO: document for AssetMapper
+Puis compiler les assets.
 
 # How to use
 
@@ -44,7 +89,7 @@ or
 ### 2 - Bouton
 
 ```
-<twig:btn href="{{ path('app_user_edit', {'id': 123}) }}" modal size="large" icon="edit">Edit</twig:a>
+<twig:btn href="{{ path('app_user_edit', {'id': 123}) }}" modal size="large" icon="edit">Edit</twig:btn>
 ```
 or
 ```php
@@ -72,13 +117,15 @@ Par exemple une partie d'un formulaire.
 ```php
 <button type="button" data-bs-toggle="modal" data-bs-target="#ma-modal">Plus de préférences</button>
 
-{% embed 'common/stimulus-modal.html.twig' with {modal_id: 'ma-modal'} %}
-    {% set modal_title %}Mes préférences{% endset %}
-    {% set modal_content %}
-        {{ form_row(form.sports) }}
-        {{ form_row(form.films) }}
-        {{ form_row(form.plats) }}
-    {% endset %}
+{% embed '@KibaticUX/_stimulus-modal.html.twig' with {id: 'ma-modal', title: true} %}
+    {% block modal_title %}Mes préférences{% endblock %}
+    {% block modal_content %}
+        <div class="modal-body">
+            {{ form_row(form.sports) }}
+            {{ form_row(form.films) }}
+            {{ form_row(form.plats) }}
+        </div>
+    {% endblock %}
 {% endembed %}
 ```
 
@@ -128,7 +175,7 @@ Par exemple ici, vous êtes sur la page `/user/list`, vous voulez ouvrir une mod
 ```
 or
 ```php
-{% include 'common/_turbo-modal-btn.html.twig' with {
+{% include '@KibaticUX/_turbo-modal-btn.html.twig' with {
     'btn_url': path('app_user_edit', {'id': user.id}),
     'btn_text': 'Edit',
     'btn_icon': 'edit',
