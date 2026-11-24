@@ -8,6 +8,7 @@ use Kibatic\UX\Turbo;
 use Kibatic\UX\Twig\Components\AComponent;
 use Kibatic\UX\Twig\Components\ActionComponent;
 use Kibatic\UX\Twig\Components\ButtonComponent;
+use Symfony\Bundle\MakerBundle\MakerInterface;
 use Symfony\Component\AssetMapper\AssetMapperInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -56,6 +57,17 @@ class KibaticUXExtension extends Extension implements PrependExtensionInterface
             ->setArguments([new Reference('twig')])
             ->addTag('twig.component', ['key' => 'action', 'template' => '@KibaticUX/components/action.html.twig'])
         ;
+
+        // symfony/maker-bundle est optionnel, le maker n'est enregistré que s'il est installé.
+        if (interface_exists(MakerInterface::class)) {
+            $container->register(MakeCrud::class, MakeCrud::class)
+                ->setArguments([
+                    '$doctrineHelper' => new Reference('maker.doctrine_helper'),
+                    '$formTypeRenderer' => new Reference('maker.renderer.form_type_renderer'),
+                ])
+                ->addTag('maker.command')
+            ;
+        }
     }
 
     public function prepend(ContainerBuilder $container): void

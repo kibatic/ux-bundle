@@ -54,8 +54,6 @@ export default class extends Controller {
 
         clone.addEventListener('hidden.bs.modal', () => clone.remove());
 
-        console.log('Modal Stack (' + event.detail.stackId + ') -> Add', event.detail, clone.dataset)
-
         this.element.append(clone)
     }
 

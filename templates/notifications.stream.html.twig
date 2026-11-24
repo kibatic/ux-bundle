@@ -7,7 +7,11 @@
 </turbo-stream>
 
 {% if clear_modal_stack ?? false %}
-<turbo-stream action="update" target="modal-stack">
-    <template></template>
-</turbo-stream>
+{#
+    modal_stack_id doit correspondre à l'id passé à _global-modal-stack.html.twig.
+    Seules les modales ouvertes sont retirées, le modèle cloné par le controller global-modal-stack reste en place.
+    Limite connue : body.modal-open et son style ne sont pas nettoyés, faute de passer par Modal.hide().
+#}
+<turbo-stream action="remove" targets="#{{ modal_stack_id ?? 'global-modal-stack' }} > .modal:not([data-global-modal-stack-target])"></turbo-stream>
+<turbo-stream action="remove" targets=".modal-backdrop"></turbo-stream>
 {% endif %}
